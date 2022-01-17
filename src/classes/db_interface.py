@@ -6,5 +6,6 @@ class db_interface:
         self.database = self.client['publication-service'] # select MongoDB's database
         self.collection = self.database['publications'] # select database's Collection
 
-    def insert_publication(self, publication) -> None:
-        pass
+    def insert_publication(self, publication: dict) -> None:
+        #if publication[''] and publication[''] # format check
+        self.collection.insert_one(publication)
