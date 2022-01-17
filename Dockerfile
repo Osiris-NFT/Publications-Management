@@ -17,4 +17,4 @@ USER runner
 
 WORKDIR /home/publications-service/
 
-ENTRYPOINT ["python3", "-u", "src/main.py"]
+ENTRYPOINT ["bash", "run.sh"]
