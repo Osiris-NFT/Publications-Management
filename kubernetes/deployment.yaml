@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: publications-service
+  namespace: osiris
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+     pod-name: publications-service
+  template:
+    metadata:
+      labels:
+        pod-name: publications-service
+    spec:
+      containers:
+      - name: publications-service
+        image: "docker.io/mightyfoxx/publications-service:v1.01"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 8000
