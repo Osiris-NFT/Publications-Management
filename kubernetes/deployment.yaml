@@ -23,7 +23,7 @@ spec:
           containerPort: 8000
         env:
           - name: DATABASE_URL
-            value: mongodb://ren:Lollipop17@mongodb:27017/
+            value: mongodb://ren:Lollipop17@mongodb.osiris.svc.cluster.local/
           - name: COLLECTION_NAME
             value: publications
           - name: DB_NAME
