@@ -21,3 +21,17 @@ spec:
         - name: http
           protocol: TCP
           containerPort: 8000
+        env:
+          - name: DATABASE_URL
+            value: mongodb://ren:Lollipop17@mongodb:27017/
+          - name: COLLECTION_NAME
+            value: publications
+          - name: DB_NAME
+            value: publication-service
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
