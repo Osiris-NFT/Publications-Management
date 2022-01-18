@@ -30,6 +30,18 @@ class db_interface:
         log = self.collection.delete_many({'user_name': user_name})
         print(f"\n{log.deleted_count} publications of {user_name} removed")
 
+    def get_one_publication(self, publication_id: str) -> dict:#NOT TESTED
+        publication = self.collection.find_one({"_id": ObjectId(publication_id)})
+        print(f"Publication:\n {publication}\nreturned")
+        return publication
+
+    def get_user_publications(self, user_name: str) -> [dict] or []:#NOT TESTED
+        cursor = self.collection.find({'user_name': user_name})
+        publications = []
+        for publication in cursor:
+            publications.append(publication)
+        return publications
+
     def delete_one_comment(self, comment_id: str, publication_id: str) -> None: #NOT TESTED
         updated_publication = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
@@ -42,7 +54,7 @@ class db_interface:
             },
             return_document=ReturnDocument.AFTER
         )
-        print(f"Publication:\n{updated_publication}\n successfully updated")
+        print(f"Publication:\n{updated_publication}\nsuccessfully updated")
 
     def delete_one_reply(self, reply_id: str, publication_id: str) -> None:#NOT TESTED
         # Can be improved by adding a comment_id to support the query
@@ -57,4 +69,4 @@ class db_interface:
             },
             return_document=ReturnDocument.AFTER
         )
-        print(f"Publication:\n{updated_publication}\n successfully updated")
+        print(f"Publication:\n{updated_publication}\nsuccessfully updated")
