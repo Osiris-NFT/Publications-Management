@@ -1,4 +1,5 @@
 import pymongo
+from pymongo.collection import ReturnDocument
 import os
 from bson import ObjectId
 class db_interface:
@@ -19,12 +20,18 @@ class db_interface:
         #       return Exception
         #else:
         self.collection.insert_one(publication)
+        print("\nPublication:\n", publication, "\n inserted in the database")
 
     def delete_one_publication(self, publication_id: str) -> None: #NOT TESTED
-        self.collection.delete_one({'_id': ObjectId(publication_id)})
+        removed_publication = self.collection.find_one_and_delete({'_id': ObjectId(publication_id)})
+        print("\nPublication:\n", removed_publication,"\n removed from the database")
+    
+    def delete_user_publications(self, user_name: str) -> None:  # NOT TESTED
+        log = self.collection.delete_many({'user_name': user_name})
+        print(f"\n{log.deleted_count} publications of {user_name} removed")
 
     def delete_one_comment(self, comment_id: str, publication_id: str) -> None: #NOT TESTED
-        self.collection.find_one_and_update(
+        updated_publication = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
             {
                 "$pull":{
@@ -32,11 +39,14 @@ class db_interface:
                         "_id": ObjectId(comment_id)
                     }
                 }
-            }
+            },
+            return_document=ReturnDocument.AFTER
         )
+        print(f"Publication:\n{updated_publication}\n successfully updated")
 
     def delete_one_reply(self, reply_id: str, publication_id: str) -> None:#NOT TESTED
-        self.collection.find_one_and_update(
+        # Can be improved by adding a comment_id to support the query
+        updated_publication = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
             {
                 "$pull": {
@@ -44,5 +54,7 @@ class db_interface:
                         "_id": ObjectId(reply_id)
                     }
                 }
-            }
+            },
+            return_document=ReturnDocument.AFTER
         )
+        print(f"Publication:\n{updated_publication}\n successfully updated")
