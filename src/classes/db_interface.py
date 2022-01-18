@@ -1,6 +1,7 @@
 import pymongo
 from pymongo.collection import ReturnDocument
 import os
+from pprint import pprint
 from bson import ObjectId
 class db_interface:
     def __init__(self):
@@ -20,11 +21,18 @@ class db_interface:
         #       return Exception
         #else:
         self.collection.insert_one(publication)
-        print("\nPublication:\n", publication, "\n inserted in the database")
+        pprint("\nPublication:\n", publication, "\n inserted in the database")
+
+    def add_one_comment(self, comment: dict, publication_id: str) -> None:
+        #self.collection.find_one_and_update()
+        pass
+
+    def add_one_reply(self, reply: dict, publication_id: str, comment_id: str) -> None:
+        pass
 
     def delete_one_publication(self, publication_id: str) -> None: #NOT TESTED
         removed_publication = self.collection.find_one_and_delete({'_id': ObjectId(publication_id)})
-        print("\nPublication:\n", removed_publication,"\n removed from the database")
+        pprint("\nPublication:\n", removed_publication,"\n removed from the database")
     
     def delete_user_publications(self, user_name: str) -> None:  # NOT TESTED
         log = self.collection.delete_many({'user_name': user_name})
@@ -32,14 +40,16 @@ class db_interface:
 
     def get_one_publication(self, publication_id: str) -> dict:#NOT TESTED
         publication = self.collection.find_one({"_id": ObjectId(publication_id)})
-        print(f"Publication:\n {publication}\nreturned")
+        pprint(f"Publication:\n{publication}\nreturned")
         return publication
 
     def get_user_publications(self, user_name: str) -> [dict] or []:#NOT TESTED
         cursor = self.collection.find({'user_name': user_name})
         publications = []
+
         for publication in cursor:
             publications.append(publication)
+        pprint(f"Publications:\n{publications}\nreturned")
         return publications
 
     def delete_one_comment(self, comment_id: str, publication_id: str) -> None: #NOT TESTED
@@ -54,7 +64,7 @@ class db_interface:
             },
             return_document=ReturnDocument.AFTER
         )
-        print(f"Publication:\n{updated_publication}\nsuccessfully updated")
+        pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
 
     def delete_one_reply(self, reply_id: str, publication_id: str) -> None:#NOT TESTED
         # Can be improved by adding a comment_id to support the query
@@ -69,4 +79,4 @@ class db_interface:
             },
             return_document=ReturnDocument.AFTER
         )
-        print(f"Publication:\n{updated_publication}\nsuccessfully updated")
+        pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
