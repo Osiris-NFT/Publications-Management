@@ -77,8 +77,20 @@ def stringifyIDs(publication: dict) -> dict:
             publication['comments'][x]['replies'][y]['_id'] = str(publication['comments'][x]['replies'][y]['_id'])
     return publication
 
-"""
-@app.post("/post_publication", status_code = status.HTTP_201_CREATED, response_model=publicationModel)
+
+@app.post("/post_publication",
+          status_code = status.HTTP_201_CREATED,
+          responses={
+              400: {"description": "Wrong format."},
+              201: {
+                  "description": "Publication posted.",
+                  "content": {
+                      "application/json": {
+                          "example": publication_example
+                      }
+                  }
+              }
+          })
 async def post_publication(publication: publicationModel):
     publication["_id"] = ObjectId()
     publication["publication_date"] = datetime.now()
@@ -88,7 +100,7 @@ async def post_publication(publication: publicationModel):
         "message": "Publication posted !",
         "publication": publication
     }
-"""
+
 @app.get("/insert_samples") # DEBUG
 async def insert_sample():
     for publication in samples:
