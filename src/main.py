@@ -82,7 +82,7 @@ async def get_publication(publication_id: str, response: Response):
 
 
 
-@app.get("/get_publications_of_one_user/{user_name}", status_code = status.HTTP_200_OK)
+@app.get("/get_publications_of_user/{user_name}", status_code = status.HTTP_200_OK)
 async def get_user_publications(user_name: str, response: Response):
     publications = mongodb_interface.get_user_publications(user_name)
     if publications != []:
@@ -100,7 +100,7 @@ async def get_user_publications(user_name: str, response: Response):
         }
 
 
-@app.delete("/delete/{publication_id}", status_code = status.HTTP_204_NO_CONTENT)
+@app.delete("/delete_publication_by_id/{publication_id}", status_code = status.HTTP_204_NO_CONTENT)
 async def delete_publication(publication_id: str ,response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
@@ -120,7 +120,17 @@ async def delete_publication(publication_id: str ,response: Response):
         return {
             "message": "No publication to delete"
         }
-        
+
+
+@app.delete("/delete_publications_of_user/{user_name}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_publications_of_user(user_name: str):
+    result = mongodb_interface.delete_user_publications(user_name)
+    return {
+        "message": f"{result.deleted_count} publication(s) of {user_name} removed."
+    }
+
+
+
 
 samples = [
     {

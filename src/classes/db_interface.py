@@ -27,16 +27,17 @@ class db_interface:
     def add_one_reply(self, reply: dict, publication_id: str, comment_id: str) -> None:
         pass
 
-    def delete_one_publication(self, publication_id: str) -> dict: #NOT TESTED
+    def delete_one_publication(self, publication_id: str) -> dict:
         removed_publication = self.collection.find_one_and_delete({'_id': ObjectId(publication_id)})
         pprint("\nPublication:")
         pprint(removed_publication)
         pprint("removed from the database")
         return removed_publication
 
-    def delete_user_publications(self, user_name: str) -> None:  # NOT TESTED
+    def delete_user_publications(self, user_name: str) -> pymongo.results.DeleteResult:
         log = self.collection.delete_many({'user_name': user_name})
         print(f"\n{log.deleted_count} publications of {user_name} removed")
+        return log
 
     def get_one_publication(self, publication_id: str) -> dict:
         publication = self.collection.find_one({"_id": ObjectId(publication_id)})
@@ -45,7 +46,7 @@ class db_interface:
         print("returned")
         return publication
 
-    def get_user_publications(self, user_name: str) -> [dict] or []:#NOT TESTED
+    def get_user_publications(self, user_name: str) -> [dict] or []:
         cursor = self.collection.find({'user_name': user_name})
         publications = []
 
