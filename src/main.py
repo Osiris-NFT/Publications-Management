@@ -4,6 +4,7 @@ from bson import ObjectId
 from datetime import datetime
 from pydantic import BaseModel
 from typing import Optional
+import json
 
 
 app = FastAPI()
@@ -168,9 +169,8 @@ async def get_user_publications(user_name: str, response: Response):
                     "description": "The publication got removed.",
                     "content": {
                         "application/json": {
-                            "example": {
-                                [publication_example]
-                            }
+                            "example":
+                                publication_example
                         }
                     }
                 }
@@ -204,9 +204,7 @@ async def delete_publication(publication_id: str ,response: Response):
                     "description": "User's publication got removed.",
                     "content": {
                         "application/json": {
-                            "example": {
-                                [publication_example, publication_example]
-                            }
+                            "example": {"message": "17 publication(s) of foo removed."}
                         }
                     }
                 }
