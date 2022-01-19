@@ -46,7 +46,7 @@ class db_interface:
         print("returned")
         return publication
 
-    def get_user_publications(self, user_name: str) -> [dict] or []:
+    def get_user_publications(self, user_name: str) -> list[dict] or list:
         cursor = self.collection.find({'user_name': user_name})
         publications = []
 

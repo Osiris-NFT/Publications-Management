@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI, Response, status, Query
 from classes.db_interface import db_interface
 from bson import ObjectId
 from datetime import datetime
@@ -9,12 +9,47 @@ from typing import Optional
 app = FastAPI()
 mongodb_interface = db_interface()
 
+publication_example = {
+    "_id": "5bf142459b72e12b2b1b2cd",
+    "publication_date": "1999-12-31 23:59:59.999999",
+    "user_name": "foo",
+    "content_type": "image",
+    "media_url": "https://image.com/img.png",
+    "category": "photography",
+    "description": "this is the description",
+    "hashtags": ["hashtag1", "hashtag2", "hashtag3"],
+    "likes_count": 23,
+    "comments": [
+        {
+            "_id": "5bf142459b72e12b2b1b2ce",
+            "user": "bar",
+            "plublication_date": "2000-12-31 23: 59: 59.999469",
+            "content": "comment example",
+            "likes_count": 10,
+            "replies": [
+                {
+                    "_id": "5bf142459b72e12b2b1b2c3",
+                    "user": "foo",
+                    "plublication_date": "2001-11-30 20: 10: 42.442765",
+                    "target_user": "bar",
+                    "content": "reply example",
+                    "likes_count": 2
+                }
+            ]
+        }
+    ]
+}
+
 class publicationModel(BaseModel): #_id, timestamps, hashtags and likes count have to be built by the service afterward
     publication_name: str
     user_name: str
-    content_type: "image" or "video" or "gif" or "audio" or "tweet"
-    media_url: str
-    category: "photography" or "pixel-art" or "digital-drawing"
+    content_type: str
+    media_url: str = Query(None, regex="((http|https): //)(www.)?" +
+                           "[a-zA-Z0-9@:%._\\+~#?&//=]" +
+                           "{2,256}\\.[a-z]" +
+                           "{2,6}\\b([-a-zA-Z0-9@:%" +
+                           "._\\+~#?&//=]*)")
+    category: str
 
 class commentModel(BaseModel):  #_id, timestamps and likes count have to be built by the service afterward
     user: str
@@ -60,7 +95,20 @@ async def insert_sample():
     return {"message": "samples posted"}
 
 
-@app.get("/get_publication_by_id/{publication_id}", status_code = status.HTTP_200_OK)
+@app.get("/get_publication_by_id/{publication_id}",
+         status_code = status.HTTP_200_OK,
+         responses={
+             400:{"description": "The ID provided is not a valid ObjectId, it must be 12-byte input or a 24-character hex string."},
+             404:{"description": "The publication does not exit."},
+             200: {
+                 "description": "Publication requested by ID.",
+                 "content": {
+                     "application/json": {
+                         "example": publication_example
+                     }
+                 }
+             }
+         })
 async def get_publication(publication_id: str, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
@@ -82,7 +130,19 @@ async def get_publication(publication_id: str, response: Response):
 
 
 
-@app.get("/get_publications_of_user/{user_name}", status_code = status.HTTP_200_OK)
+@app.get("/get_publications_of_user/{user_name}",
+         status_code = status.HTTP_200_OK,
+         responses={
+             404: {"description": "The user does not exit."},
+             200: {
+                 "description": "Publications of the user returned.",
+                 "content": {
+                     "application/json": {
+                         "example": [publication_example, publication_example]
+                     }
+                 }
+             }
+         })
 async def get_user_publications(user_name: str, response: Response):
     publications = mongodb_interface.get_user_publications(user_name)
     if publications != []:
@@ -100,7 +160,21 @@ async def get_user_publications(user_name: str, response: Response):
         }
 
 
-@app.delete("/delete_publication_by_id/{publication_id}", status_code = status.HTTP_204_NO_CONTENT)
+@app.delete("/delete_publication_by_id/{publication_id}",
+            status_code = status.HTTP_204_NO_CONTENT,
+            responses={
+                400: {"description": "The ID provided is not a valid ObjectId, it must be 12-byte input or a 24-character hex string."},
+                204: {
+                    "description": "The publication got removed.",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                [publication_example]
+                            }
+                        }
+                    }
+                }
+            })
 async def delete_publication(publication_id: str ,response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
@@ -122,7 +196,21 @@ async def delete_publication(publication_id: str ,response: Response):
         }
 
 
-@app.delete("/delete_publications_of_user/{user_name}", status_code=status.HTTP_204_NO_CONTENT)
+@app.delete("/delete_publications_of_user/{user_name}",
+            status_code=status.HTTP_204_NO_CONTENT,
+            responses={
+                404: {"description": "The user does not exit."},
+                204: {
+                    "description": "User's publication got removed.",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                [publication_example, publication_example]
+                            }
+                        }
+                    }
+                }
+            })
 async def delete_publications_of_user(user_name: str):
     result = mongodb_interface.delete_user_publications(user_name)
     return {
