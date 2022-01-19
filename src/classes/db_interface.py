@@ -21,7 +21,9 @@ class db_interface:
         #       return Exception
         #else:
         self.collection.insert_one(publication)
-        pprint("\nPublication:\n", publication, "\n inserted in the database")
+        print("\nPublication:")
+        pprint(publication)
+        print("inserted in database")
 
     def add_one_comment(self, comment: dict, publication_id: str) -> None:
         #self.collection.find_one_and_update()
@@ -38,9 +40,11 @@ class db_interface:
         log = self.collection.delete_many({'user_name': user_name})
         print(f"\n{log.deleted_count} publications of {user_name} removed")
 
-    def get_one_publication(self, publication_id: str) -> dict:#NOT TESTED
+    def get_one_publication(self, publication_id: str) -> dict:
         publication = self.collection.find_one({"_id": ObjectId(publication_id)})
-        pprint(f"Publication:\n{publication}\nreturned")
+        print("\nPublication:")
+        pprint(publication)
+        print("returned")
         return publication
 
     def get_user_publications(self, user_name: str) -> [dict] or []:#NOT TESTED
