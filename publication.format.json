@@ -15,6 +15,7 @@
             "user": "string: user name of the comment's publisher",
             "plublication_date": "timestamp of the publication",
             "content": "string: content of the comment",
+            "hashtags":["list[string]: list of hashtags"],
             "likes_count": "int: number of like that the comment have",
             "replies": [
                     {
@@ -23,6 +24,7 @@
                     "plublication_date": "timestamp of the publication",
                     "target_user": "string: target of the reply",
                     "content": "string: content of the reply",
+                    "hashtags":["list[string]: list of hashtags"],
                     "likes_count": "int: number of like that the reply have"
                 }, {}, {}
             ]
