@@ -67,7 +67,7 @@ async def root():
     return {"message": "Publication service is alive !"}
 
 
-
+# possiblement à remplacer par json.dumps
 def stringifyIDs(publication: dict) -> dict:
     """Stringify every ObjectId() of a mongoDB's publication"""
     publication['_id'] = str(publication['_id'])
@@ -237,7 +237,7 @@ async def delete_publications_of_user(user_name: str):
 
 
 #Doit recup le com
-@app.delete("/delete_comment/{comment_id}/from/{publication_id}",
+@app.delete("/delete_comment",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
                 400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -251,7 +251,7 @@ async def delete_publications_of_user(user_name: str):
                     }
                 }
             })
-async def delete_comment(comment_id: str, publication_id: str, response: Response):
+async def delete_comment(publication_id: str, comment_id: str, response: Response):
     if not ( 
         ObjectId.is_valid(publication_id)
         and ObjectId.is_valid(comment_id) ):
@@ -259,20 +259,20 @@ async def delete_comment(comment_id: str, publication_id: str, response: Respons
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    updated_pblication = mongodb_interface.delete_one_comment(comment_id,publication_id)
-    if updated_pblication != None:
+    is_success = mongodb_interface.delete_one_comment(comment_id,publication_id)
+    if is_success:
         return {
-            "message": "Comment successfuly removed."
+            "message": "Comment successfully removed."
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {
-            "message": "Publication does not exist."
+            "message": "Publication or comment does not exist."
         }
 
 
-#Doit récup la reply
-@app.delete("/delete_reply/{reply_id}/from_comment/{comment_id}/from_publication/{publication_id}",
+#Doit récup la reply / possiblement delete les replies repondants a cette meme reply
+@app.delete("/delete_reply",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
                 400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -286,7 +286,7 @@ async def delete_comment(comment_id: str, publication_id: str, response: Respons
                     }
                 }
             })
-async def delete_reply(reply_id: str, publication_id: str,comment_id: str, response: Response):
+async def delete_reply(publication_id: str, comment_id: str, reply_id: str, response: Response):
     if not (
             ObjectId.is_valid(publication_id)
             and ObjectId.is_valid(reply_id)):
@@ -294,17 +294,81 @@ async def delete_reply(reply_id: str, publication_id: str,comment_id: str, respo
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    updated_pblication = mongodb_interface.delete_one_reply(reply_id, comment_id, publication_id)
-    if updated_pblication != None:
+    is_success = mongodb_interface.delete_one_reply(reply_id, comment_id, publication_id)
+    if is_success:
         return {
-            "message": "Reply successfuly removed."
+            "message": "Reply successfully removed."
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {
-            "message": "Publication does not exist."
+            "message": "Publication, comment or reply does not exist."
         }
 
+
+@app.patch("/like_publication",
+           status_code=status.HTTP_200_OK,
+           responses={
+               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               404: {"description": "The publication does not exit."},
+               200: {
+                   "description": "Publication got liked successfully.",
+                   "content": {
+                       "application/json": {
+                           "example": {"message": "Publication liked !"}
+                       }
+                   }
+               }
+           })
+async def like_a_publication(publication_id: str, response: Response):
+    if not ObjectId.is_valid(publication_id):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+        }
+    is_success = mongodb_interface.like_one_publication(publication_id)
+    if is_success:
+        return{
+            "message": "Publication liked !"
+        }
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return{
+            "message": "Publication does not exist"
+        }
+
+@app.patch("/like_comment", 
+            status_code = status.HTTP_200_OK,
+           responses={
+               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               404: {"description": "The  or comment does not exit."},
+               200: {
+                   "description": "Comment got liked successfully.",
+                   "content": {
+                       "application/json": {
+                           "example": {"message": "Comment liked !"}
+                       }
+                   }
+               }
+           })
+async def like_a_comment(publication_id: str, comment_id: str, response: Response):
+    if not (
+            ObjectId.is_valid(publication_id)
+            and ObjectId.is_valid(comment_id)):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+        }
+    is_success = mongodb_interface.like_one_comment(publication_id, comment_id)
+    if is_success:
+        return{
+            "message": "Comment liked !"
+        }
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return{
+            "message": "Publication or comment does not exist"
+        }
 
 samples = [
     {

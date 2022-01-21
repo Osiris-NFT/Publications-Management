@@ -44,7 +44,7 @@ class db_interface:
         print(f"\n{log.deleted_count} publications of {user_name} removed")
         return log
 
-    def get_one_publication(self, publication_id: str) -> dict:
+    def get_one_publication(self, publication_id: str) -> dict or None:
         publication = self.collection.find_one({"_id": ObjectId(publication_id)})
         print("\nPublication:")
         pprint(publication)
@@ -60,9 +60,12 @@ class db_interface:
         pprint(f"Publications:\n{publications}\nreturned")
         return publications
 
-    def delete_one_comment(self, comment_id: str, publication_id: str) -> dict:
+    def delete_one_comment(self, comment_id: str, publication_id: str) -> bool:
         updated_publication = self.collection.find_one_and_update(
-            {"_id": ObjectId(publication_id)},
+            {
+                "_id": ObjectId(publication_id),
+                "comments._id":ObjectId(comment_id)
+            },
             {
                 "$pull":{
                     "comments":{
@@ -72,14 +75,18 @@ class db_interface:
             },
             return_document=ReturnDocument.AFTER
         )
-        pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
-        return updated_publication
+        if updated_publication == None:
+            return False
+        else:
+            pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
+            return True
 
-    def delete_one_reply(self, reply_id: str,comment_id: str, publication_id: str) -> dict:
+    def delete_one_reply(self, reply_id: str,comment_id: str, publication_id: str) -> bool:
         updated_publication = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
-                "comments._id": ObjectId(comment_id)
+                "comments._id": ObjectId(comment_id),
+                "comments.replies._id": ObjectId(reply_id)
             },
             {
                 "$pull": {
@@ -90,5 +97,41 @@ class db_interface:
             },
             return_document=ReturnDocument.AFTER
         )
-        pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
-        return updated_publication
+        if updated_publication == None:
+            return False
+        else:
+            pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
+            return True
+
+    def like_one_publication(self, publication_id) -> bool:
+        updated_pub = self.collection.find_one_and_update(
+            {"_id": ObjectId(publication_id)},
+            {
+                "$inc":{
+                    "likes_count": 1
+                }
+            }
+        )
+        if updated_pub == None:
+            return False
+        else:
+            print(f'Publication \'{publication_id}\' got 1 like.')
+            return True
+
+    def like_one_comment(self, publication_id: str, comment_id: str):
+        updated_pub = self.collection.find_one_and_update(
+            {
+                "_id": ObjectId(publication_id),
+                "comments._id": ObjectId(comment_id)
+             },
+            {
+                "$inc": {
+                    "comments.$.likes_count": 1
+                }
+            }
+        )
+        if updated_pub == None:
+            return False
+        else:
+            print(f'Comment \'{comment_id}\' got 1 like.')
+            return True
