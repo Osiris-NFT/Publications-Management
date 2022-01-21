@@ -102,7 +102,7 @@ async def post_publication(publication: publicationModel):
     }
 
 @app.get("/insert_samples") # DEBUG
-async def insert_sample():
+async def DEBUG():
     for publication in samples:
         mongodb_interface.insert_one_publication(publication)
     return {"message": "samples posted"}
@@ -154,7 +154,15 @@ async def get_publication(publication_id: str, response: Response):
                          "example": [publication_example, publication_example]
                      }
                  }
-             }
+             },
+             204: {
+                 "description": "User have no publications.",
+                 "content": {
+                     "application/json": {
+                         "example": {"message": "user have no publications"}
+                     }
+                 }
+            }
          })
 async def get_user_publications(user_name: str, response: Response):
     publications = mongodb_interface.get_user_publications(user_name)
@@ -228,14 +236,82 @@ async def delete_publications_of_user(user_name: str):
     }
 
 
+#Doit recup le com
+@app.delete("/delete_comment/{comment_id}/from/{publication_id}",
+            status_code=status.HTTP_204_NO_CONTENT,
+            responses={
+                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+                404: {"description": "The publication or comment does not exit."},
+                204: {
+                    "description": "Comment got removed.",
+                    "content": {
+                        "application/json": {
+                            "example": {"message": "Comment: {content}; from {user}, deleted"}
+                        }
+                    }
+                }
+            })
+async def delete_comment(comment_id: str, publication_id: str, response: Response):
+    if not ( 
+        ObjectId.is_valid(publication_id)
+        and ObjectId.is_valid(comment_id) ):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+        }
+    updated_pblication = mongodb_interface.delete_one_comment(comment_id,publication_id)
+    if updated_pblication != None:
+        return {
+            "message": "Comment successfuly removed."
+        }
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {
+            "message": "Publication does not exist."
+        }
+
+
+#Doit récup la reply
+@app.delete("/delete_reply/{reply_id}/from_comment/{comment_id}/from_publication/{publication_id}",
+            status_code=status.HTTP_204_NO_CONTENT,
+            responses={
+                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+                404: {"description": "The publication or reply does not exit."},
+                204: {
+                    "description": "Reply got removed.",
+                    "content": {
+                        "application/json": {
+                            "example": {"message": "Reply: {content}; from {user}, deleted"}
+                        }
+                    }
+                }
+            })
+async def delete_reply(reply_id: str, publication_id: str,comment_id: str, response: Response):
+    if not (
+            ObjectId.is_valid(publication_id)
+            and ObjectId.is_valid(reply_id)):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+        }
+    updated_pblication = mongodb_interface.delete_one_reply(reply_id, comment_id, publication_id)
+    if updated_pblication != None:
+        return {
+            "message": "Reply successfuly removed."
+        }
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {
+            "message": "Publication does not exist."
+        }
 
 
 samples = [
     {
         "_id": ObjectId(),
         "publication_date": str(datetime.now()),
-        "publication_name": "sample 1",
-        "user_name": "user 1",
+        "publication_name": "Chat Qui Fly",
+        "user_name": "EliseLaBalise",
         "content_type": "image",
         "media_url": "https://http.cat/100",
         "category": "photography",
@@ -273,13 +349,13 @@ samples = [
     {
         "_id": ObjectId(),
         "publication_date": str(datetime.now()),
-        "publication_name": "sample 2",
-        "user_name": "Ayaya",
+        "publication_name": "Let Me In",
+        "user_name": "EliseLaBalise",
         "content_type": "image",
-        "media_url": "https://http.cat/404",
+        "media_url": "https://http.cat/401",
         "category": "photography",
         "description": "bruh wth my cat doin",
-        "hashtags": ["#cat", "#404", "#solost"],
+        "hashtags": ["#cat", "#401", "#solost"],
         "likes_count": 203,
         "comments":[
             {
@@ -312,20 +388,20 @@ samples = [
     {
         "_id": ObjectId(),
         "publication_date": str(datetime.now()),
-        "publication_name": "sample 3",
-        "user_name": "Mamamia",
+        "publication_name": "Good Meal",
+        "user_name": "EliseLaBalise",
         "content_type": "image",
-        "media_url": "https://http.cat/201",
+        "media_url": "https://http.cat/405",
         "category": "photography",
-        "description": "buy this plz im poor",
-        "hashtags": ["#poor", "#trump2024"],
-        "likes_count": 1,
+        "description": "Poor cat vs hungry man",
+        "hashtags": ["#poor", "#steak"],
+        "likes_count": 195,
         "comments":[
             {
                 "_id": ObjectId(),
                 "user": "NotMyBusiness",
                 "plublication_date": str(datetime.now()),
-                "content": "No Thank you",
+                "content": "Noooooooooo",
                 "likes_count": 10,
                 "replies": [
                     {
@@ -333,7 +409,7 @@ samples = [
                         "user": "Joykiller",
                         "plublication_date": str(datetime.now()),
                         "target_user": "NotMyBusiness",
-                        "content": "yeyeyeye, fml",
+                        "content": "RUNNN",
                         "likes_count": 4
                     }
                 ]

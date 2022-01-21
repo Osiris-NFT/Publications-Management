@@ -7,8 +7,13 @@ class db_interface:
     def __init__(self):
         """database_url = os.environ["DATABASE_URL"]    #get every values of env
         db_name = os.environ["DB_NAME"]
-        collection_name = os.environ["COLLECTION_NAME"]"""
+        collection_name = os.environ["COLLECTION_NAME"]
 
+        self.client = pymongo.MongoClient(database_url) # connection to MongoDB
+        self.database = self.client[db_name]  # select MongoDB's database
+        self.collection = self.database[collection_name] # select database's Collection
+        """
+        #DEBUG
         self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/") # connection to MongoDB
         self.database = self.client["publications-service"]  # select MongoDB's database
         self.collection = self.database["publications"] # select database's Collection
@@ -55,7 +60,7 @@ class db_interface:
         pprint(f"Publications:\n{publications}\nreturned")
         return publications
 
-    def delete_one_comment(self, comment_id: str, publication_id: str) -> None: #NOT TESTED
+    def delete_one_comment(self, comment_id: str, publication_id: str) -> dict:
         updated_publication = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
             {
@@ -68,14 +73,17 @@ class db_interface:
             return_document=ReturnDocument.AFTER
         )
         pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
+        return updated_publication
 
-    def delete_one_reply(self, reply_id: str, publication_id: str) -> None:#NOT TESTED
-        # Can be improved by adding a comment_id to support the query
+    def delete_one_reply(self, reply_id: str,comment_id: str, publication_id: str) -> dict:
         updated_publication = self.collection.find_one_and_update(
-            {"_id": ObjectId(publication_id)},
+            {
+                "_id": ObjectId(publication_id),
+                "comments._id": ObjectId(comment_id)
+            },
             {
                 "$pull": {
-                    "comments.replies": {
+                    "comments.$.replies": {
                         "_id": ObjectId(reply_id)
                     }
                 }
@@ -83,3 +91,4 @@ class db_interface:
             return_document=ReturnDocument.AFTER
         )
         pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
+        return updated_publication

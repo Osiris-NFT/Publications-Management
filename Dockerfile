@@ -9,7 +9,7 @@ RUN apk update && \
     pip install -r /home/requirements.txt && \
     adduser -D -s /bin/ash runner
 
-COPY src /home/publications-service/
+COPY src /home/publications-service/src
 COPY run.sh /home/publications-service/
 COPY .env /home/publications-service/
 
