@@ -41,6 +41,15 @@ publication_example = {
     ]
 }
 
+comment_example = {
+    "_id": "5bf142459b72e12b2b1b2cd",
+    "user": "foo",
+    "publication_date": "1999-12-31 23:59:59.999999",
+    "content": "comment example",
+    "likes_count": 0,
+    "replies": []
+}
+
 class publicationModel(BaseModel): #_id, timestamps, hashtags and likes count have to be built by the service afterward
     publication_name: str
     user_name: str
@@ -77,6 +86,19 @@ def stringifyIDs(publication: dict) -> dict:
             publication['comments'][x]['replies'][y]['_id'] = str(publication['comments'][x]['replies'][y]['_id'])
     return publication
 
+def getHashtags(string: str) -> list:
+    str_list = string.split(' ')
+    hashtags = [wrd.strip('#') for wrd in str_list if wrd.lower().startswith('#')]
+    return hashtags
+
+def buildComment(comment: dict) -> dict:
+    hashtags = getHashtags(comment['content'])
+    comment["hashtags"] = hashtags
+    comment["publication_date"] = str(datetime.now())
+    comment["_id"] = ObjectId()
+    comment["likes_count"] = 0
+    comment["replies"] = []
+    return comment
 
 @app.post("/post_publication",
           status_code = status.HTTP_201_CREATED,
@@ -369,6 +391,38 @@ async def like_a_comment(publication_id: str, comment_id: str, response: Respons
         return{
             "message": "Publication or comment does not exist"
         }
+
+
+@app.post("/post_comment",
+            status_code = status.HTTP_201_CREATED,
+            responses={
+                400: {"description": "Wrong format."},
+                201: {
+                    "description": "Comment posted.",
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "message": "Comment successfully posted !",
+                                "comment": comment_example
+                            }
+                        }
+                    }
+                }
+            })
+async def post_a_comment(publication_id: str, posted_comment: commentModel, response: Response):
+    if not ObjectId.is_valid(publication_id):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "Invalid ID"
+        }
+    # Build comment
+    comment = buildComment(dict(posted_comment))
+    comment_id = mongodb_interface.post_one_comment(publication_id, comment)
+    comment["_id"] = str(comment_id)
+    return {
+        "message": "Comment successfully posted !",
+        "comment": comment
+    }
 
 samples = [
     {
