@@ -135,3 +135,19 @@ class db_interface:
         else:
             print(f'Comment \'{comment_id}\' got 1 like.')
             return True
+
+    def post_one_comment(self, publication_id: str, comment: dict) -> str:
+        result = self.collection.find_one_and_update(
+            {
+                "_id": ObjectId(publication_id)
+                },
+                {
+                    "$addToSet":{
+                        "comments": comment
+                    }
+                },
+                return_document=ReturnDocument.AFTER
+        )
+        result_id = result["comments"][-1]["_id"]
+        print(f"Comment with id '{result_id}' by '{result['comments'][-1]['user']}' inserted in DB")
+        return result_id
