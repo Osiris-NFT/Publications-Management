@@ -25,12 +25,12 @@ jobs:
 
     
       env:
-        tag: $(date +%s)
+        TAG: $(date +%s)
 
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mightyfoxx/publications-service:${{ env.tag }}
+      run: docker build . --file Dockerfile --tag mightyfoxx/publications-service:${{ echo $TAG }}
    
     - uses: actions/checkout@v2
     - name: Push the Docker image
-      run: docker push mightyfoxx/publications-service:${{ env.tag }}
+      run: docker push mightyfoxx/publications-service:${{ echo $TAG }}
