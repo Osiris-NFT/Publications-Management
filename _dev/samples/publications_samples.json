@@ -1,147 +1,149 @@
-[
-    {
-        "_id": "5bf142459b72e12b2b1b2cd",
-        "publication_date": "2021-01-02 23:53:55",
-        "publication_name": "Chat Qui Fly",
-        "user_name": "EliseLaBalise",
-        "content_type": "image",
-        "media_url": "https://http.cat/100",
-        "category": "photography",
-        "description": "this is just a cat :))",
-        "hashtags": [
-            "#cat",
-            "#cute",
-            "#theywillkillyou"
-        ],
-        "likes_count": 23,
-        "comments": [
-            {
-                "_id": "5bf142459b72e12b2b1b2ce",
-                "user": "mamamiaDu93",
-                "plublication_date": "2021-04-22 11:38:01",
-                "content": "to cute for me i'm dying xO",
-                "likes_count": 10,
-                "replies": [
-                    {
-                        "_id": "5bf142459b72e12b2b1b2cf",
-                        "user": "notsusatall",
-                        "plublication_date": "2021-04-29 22:54:19",
-                        "target_user": "mamamiaDu93",
-                        "content": "Right bro :3",
-                        "likes_count": 2
-                    }
-                ]
-            },
-            {
-                "_id": "5bf142459b72e12b2b1b2c1",
-                "user": "LostOnTweeter",
-                "plublication_date": "2021-07-01 22:50:25",
-                "content": "ratio.",
-                "likes_count": 327,
-                "replies": []
-            }
-        ]
-    },
-    {
-        "_id": "5bf142459b72e12b2b1b2cd2",
-        "publication_date": "2021-11-07 02:55:54.999999",
-        "publication_name": "Let Me In",
-        "user_name": "EliseLaBalise",
-        "content_type": "image",
-        "media_url": "https://http.cat/401",
-        "category": "photography",
-        "description": "bruh wth my cat doin",
-        "hashtags": [
-            "#cat",
-            "#401",
-            "#solost"
-        ],
-        "likes_count": 203,
-        "comments": [
-            {
-                "_id": "5bf142459b72e12b2b1b2c3",
-                "user": "jokesterdu13",
-                "plublication_date": "2021-11-14 09:09:54.999999",
-                "content": "where the cat lol",
-                "likes_count": 10,
-                "replies": [
-                    {
-                        "_id": "5bf142459b72e12b2b1b2c4",
-                        "user": "Ayaya",
-                        "plublication_date": "2021-11-20 05:42:37.999999",
-                        "target_user": "jokesterdu13",
-                        "content": "ahah",
-                        "likes_count": 5
-                    },
-                    {
-                        "_id": "5bf142459b72e12b2b1b2c5",
-                        "user": "ImBored",
-                        "plublication_date": "2021-11-25 18:57:50.999999",
-                        "target_user": "Ayaya",
-                        "content": "Not impressed, maybe you meant 'haha' ?",
-                        "likes_count": 0
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "_id": "5bf142459b72e12b2b1b2c6",
-        "publication_date": "2022-02-08 20:19:16.999999",
-        "publication_name": "Good Meal",
-        "user_name": "EliseLaBalise",
-        "content_type": "image",
-        "media_url": "https://http.cat/405",
-        "category": "photography",
-        "description": "Poor cat vs hungry man",
-        "hashtags": [
-            "#poor",
-            "#steak"
-        ],
-        "likes_count": 195,
-        "comments": [
-            {
-                "_id": "5bf142459b72e12b2b1b2c7",
-                "user": "NotMyBusiness",
-                "plublication_date": "2022-02-20 00:31:14.999999",
-                "content": "Noooooooooo",
-                "likes_count": 10,
-                "replies": [
-                    {
-                        "_id": "5bf142459b72e12b2b1b2c8",
-                        "user": "Joykiller",
-                        "plublication_date": "2022-04-07 18:54:03.999999",
-                        "target_user": "NotMyBusiness",
-                        "content": "RUNNN",
-                        "likes_count": 4
-                    }
-                ]
-            },
-            {
-                "_id": "5bf142459b72e12b2b1b2c9",
-                "user": "MaevaDu93",
-                "plublication_date": "2022-04-10 16:23:46.999999",
-                "content": "Le J c'est le S.",
-                "likes_count": 27,
-                "replies": [
-                    {
-                        "_id": "5bf142459b72e12b2b1b2ca",
-                        "user": "ChocolatineMaster",
-                        "plublication_date": "2022-09-07 05:21:32.999999",
-                        "target_user": "MaevaDu93",
-                        "content": "jajaja",
-                        "likes_count": 5
-                    },
-                    {
-                        "_id": "5bf142459b72e12b2b1b2cb",
-                        "user": "Ayaya",
-                        "plublication_date": "2022-10-14 09:12:22.999999",
-                        "target_user": "MaevaDu93",
-                        "content": "C marseille bb",
-                        "likes_count": 1
-                    }
-                ]
-            }
-        ]
-    }
-]
+{
+    "publications": [
+        {
+            "_id": "5bf142459b72e12b2b1b2cd",
+            "publication_date": "2021-01-02 23:53:55",
+            "publication_name": "Chat Qui Fly",
+            "user_name": "EliseLaBalise",
+            "content_type": "image",
+            "media_url": "https://http.cat/100",
+            "category": "photography",
+            "description": "this is just a cat :))",
+            "hashtags": [
+                "#cat",
+                "#cute",
+                "#theywillkillyou"
+            ],
+            "likes_count": 23,
+            "comments": [
+                {
+                    "_id": "5bf142459b72e12b2b1b2ce",
+                    "user": "mamamiaDu93",
+                    "plublication_date": "2021-04-22 11:38:01",
+                    "content": "to cute for me i'm dying xO",
+                    "likes_count": 10,
+                    "replies": [
+                        {
+                            "_id": "5bf142459b72e12b2b1b2cf",
+                            "user": "notsusatall",
+                            "plublication_date": "2021-04-29 22:54:19",
+                            "target_user": "mamamiaDu93",
+                            "content": "Right bro :3",
+                            "likes_count": 2
+                        }
+                    ]
+                },
+                {
+                    "_id": "5bf142459b72e12b2b1b2c1",
+                    "user": "LostOnTweeter",
+                    "plublication_date": "2021-07-01 22:50:25",
+                    "content": "ratio.",
+                    "likes_count": 327,
+                    "replies": []
+                }
+            ]
+        },
+        {
+            "_id": "5bf142459b72e12b2b1b2cd2",
+            "publication_date": "2021-11-07 02:55:54.999999",
+            "publication_name": "Let Me In",
+            "user_name": "EliseLaBalise",
+            "content_type": "image",
+            "media_url": "https://http.cat/401",
+            "category": "photography",
+            "description": "bruh wth my cat doin",
+            "hashtags": [
+                "#cat",
+                "#401",
+                "#solost"
+            ],
+            "likes_count": 203,
+            "comments": [
+                {
+                    "_id": "5bf142459b72e12b2b1b2c3",
+                    "user": "jokesterdu13",
+                    "plublication_date": "2021-11-14 09:09:54.999999",
+                    "content": "where the cat lol",
+                    "likes_count": 10,
+                    "replies": [
+                        {
+                            "_id": "5bf142459b72e12b2b1b2c4",
+                            "user": "Ayaya",
+                            "plublication_date": "2021-11-20 05:42:37.999999",
+                            "target_user": "jokesterdu13",
+                            "content": "ahah",
+                            "likes_count": 5
+                        },
+                        {
+                            "_id": "5bf142459b72e12b2b1b2c5",
+                            "user": "ImBored",
+                            "plublication_date": "2021-11-25 18:57:50.999999",
+                            "target_user": "Ayaya",
+                            "content": "Not impressed, maybe you meant 'haha' ?",
+                            "likes_count": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "_id": "5bf142459b72e12b2b1b2c6",
+            "publication_date": "2022-02-08 20:19:16.999999",
+            "publication_name": "Good Meal",
+            "user_name": "EliseLaBalise",
+            "content_type": "image",
+            "media_url": "https://http.cat/405",
+            "category": "photography",
+            "description": "Poor cat vs hungry man",
+            "hashtags": [
+                "#poor",
+                "#steak"
+            ],
+            "likes_count": 195,
+            "comments": [
+                {
+                    "_id": "5bf142459b72e12b2b1b2c7",
+                    "user": "NotMyBusiness",
+                    "plublication_date": "2022-02-20 00:31:14.999999",
+                    "content": "Noooooooooo",
+                    "likes_count": 10,
+                    "replies": [
+                        {
+                            "_id": "5bf142459b72e12b2b1b2c8",
+                            "user": "Joykiller",
+                            "plublication_date": "2022-04-07 18:54:03.999999",
+                            "target_user": "NotMyBusiness",
+                            "content": "RUNNN",
+                            "likes_count": 4
+                        }
+                    ]
+                },
+                {
+                    "_id": "5bf142459b72e12b2b1b2c9",
+                    "user": "MaevaDu93",
+                    "plublication_date": "2022-04-10 16:23:46.999999",
+                    "content": "Le J c'est le S.",
+                    "likes_count": 27,
+                    "replies": [
+                        {
+                            "_id": "5bf142459b72e12b2b1b2ca",
+                            "user": "ChocolatineMaster",
+                            "plublication_date": "2022-09-07 05:21:32.999999",
+                            "target_user": "MaevaDu93",
+                            "content": "jajaja",
+                            "likes_count": 5
+                        },
+                        {
+                            "_id": "5bf142459b72e12b2b1b2cb",
+                            "user": "Ayaya",
+                            "plublication_date": "2022-10-14 09:12:22.999999",
+                            "target_user": "MaevaDu93",
+                            "content": "C marseille bb",
+                            "likes_count": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
