@@ -123,6 +123,39 @@ async def post_publication(publication: publicationModel):
         "publication": publication
     }
 
+
+@app.post("/post_comment",
+          status_code=status.HTTP_201_CREATED,
+          responses={
+              400: {"description": "Wrong format."},
+              201: {
+                  "description": "Comment posted.",
+                  "content": {
+                      "application/json": {
+                          "example": {
+                              "message": "Comment successfully posted !",
+                              "comment": comment_example
+                          }
+                      }
+                  }
+              }
+          })
+async def post_a_comment(publication_id: str, posted_comment: commentModel, response: Response):
+    if not ObjectId.is_valid(publication_id):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "Invalid ID"
+        }
+    # Build comment
+    comment = buildComment(dict(posted_comment))
+    comment_id = mongodb_interface.post_one_comment(publication_id, comment)
+    comment["_id"] = str(comment_id)
+    return {
+        "message": "Comment successfully posted !",
+        "comment": comment
+    }
+
+
 @app.get("/insert_samples") # DEBUG
 async def DEBUG():
     for publication in samples:
@@ -392,37 +425,6 @@ async def like_a_comment(publication_id: str, comment_id: str, response: Respons
             "message": "Publication or comment does not exist"
         }
 
-
-@app.post("/post_comment",
-            status_code = status.HTTP_201_CREATED,
-            responses={
-                400: {"description": "Wrong format."},
-                201: {
-                    "description": "Comment posted.",
-                    "content": {
-                        "application/json": {
-                            "example": {
-                                "message": "Comment successfully posted !",
-                                "comment": comment_example
-                            }
-                        }
-                    }
-                }
-            })
-async def post_a_comment(publication_id: str, posted_comment: commentModel, response: Response):
-    if not ObjectId.is_valid(publication_id):
-        response.status_code = status.HTTP_400_BAD_REQUEST
-        return {
-            "message": "Invalid ID"
-        }
-    # Build comment
-    comment = buildComment(dict(posted_comment))
-    comment_id = mongodb_interface.post_one_comment(publication_id, comment)
-    comment["_id"] = str(comment_id)
-    return {
-        "message": "Comment successfully posted !",
-        "comment": comment
-    }
 
 samples = [
     {
