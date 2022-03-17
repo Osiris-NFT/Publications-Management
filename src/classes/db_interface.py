@@ -135,9 +135,31 @@ class db_interface:
         if updated_pub == None:
             return False
         else:
-            print(f'Comment \'{comment_id}\' got 1 like.')
+            print(f'Comment \'{comment_id}\' got a like.')
             return True
 
+    # BROKEN
+    def like_one_reply(self,publication_id: str, comment_id: str, reply_id: str):
+        updated_pub = self.collection.find_one_and_update(
+            {
+                "_id": ObjectId(publication_id),
+                "comments._id": ObjectId(comment_id),
+                "comments.replies._id": ObjectId(reply_id)
+            },
+            {
+                "$inc": {
+                    "replies.$.likes_count": 1
+                }
+            },
+            return_document=ReturnDocument.AFTER
+        )
+        print(updated_pub)
+        if updated_pub == None:
+            return False
+        else:
+            print(f'Reply \'{reply_id}\' got a like.')
+            return True
+        
     def post_one_comment(self, publication_id: str, comment: dict) -> str:
         result = self.collection.find_one_and_update(
             {
@@ -152,4 +174,22 @@ class db_interface:
         )
         result_id = result["comments"][-1]["_id"]
         print(f"Comment with id '{result_id}' by '{result['comments'][-1]['user']}' inserted in DB")
+        return result_id
+
+    def post_one_reply(self, publication_id: str, comment_id: str, reply: dict):
+        result = self.collection.find_one_and_update(
+            {
+                "_id": ObjectId(publication_id),
+                "comments._id": ObjectId(comment_id)
+            },
+            {
+                "$addToSet": {
+                    "replies": reply
+                }
+            },
+            return_document=ReturnDocument.AFTER
+        )
+        result_id = result["replies"][-1]["_id"]
+        print(
+            f"Reply with id '{result_id}' by '{result['replies'][-1]['user']}' inserted in DB")
         return result_id
