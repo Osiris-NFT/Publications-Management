@@ -160,7 +160,7 @@ class db_interface:
             print(f'Reply \'{reply_id}\' got a like.')
             return True
         
-    def post_one_comment(self, publication_id: str, comment: dict) -> str:
+    def insert_one_comment(self, publication_id: str, comment: dict) -> str:
         result = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id)
@@ -176,7 +176,7 @@ class db_interface:
         print(f"Comment with id '{result_id}' by '{result['comments'][-1]['user']}' inserted in DB")
         return result_id
 
-    def post_one_reply(self, publication_id: str, comment_id: str, reply: dict):
+    def insert_one_reply(self, publication_id: str, comment_id: str, reply: dict):
         result = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
@@ -184,7 +184,7 @@ class db_interface:
             },
             {
                 "$addToSet": {
-                    "replies": reply
+                    "comments.$.replies": reply
                 }
             },
             return_document=ReturnDocument.AFTER

@@ -100,6 +100,14 @@ def buildComment(comment: dict) -> dict:
     comment["replies"] = []
     return comment
 
+def buildReply(reply: dict) -> dict:
+    hashtags = getHashtags(reply['content'])
+    reply["hashtags"] = hashtags
+    reply["publication_date"] = str(datetime.now())
+    reply["_id"] = ObjectId()
+    reply["likes_count"] = 0
+    return reply
+
 @app.post("/post_publication",
           status_code = status.HTTP_201_CREATED,
           responses={
@@ -148,13 +156,44 @@ async def post_a_comment(publication_id: str, posted_comment: commentModel, resp
         }
     # Build comment
     comment = buildComment(dict(posted_comment))
-    comment_id = mongodb_interface.post_one_comment(publication_id, comment)
+    comment_id = mongodb_interface.insert_one_comment(publication_id, comment)
     comment["_id"] = str(comment_id)
     return {
         "message": "Comment successfully posted !",
         "comment": comment
     }
 
+# TODO
+@app.post("/post_reply",
+          status_code=status.HTTP_201_CREATED,
+          responses={
+              400: {"description": "Wrong format."},
+              201: {
+                  "description": "Reply posted.",
+                  "content": {
+                      "application/json": {
+                          "example": {
+                              "message": "Reply successfully posted !",
+                              "comment": comment_example
+                          }
+                      }
+                  }
+              }
+          })
+async def post_a_reply(publication_id: str, comment_id: str, posted_reply: replyModel, response: Response):
+    if not ObjectId.is_valid(publication_id):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "Invalid ID"
+        }
+    # Build reply
+    reply = buildReply(dict(posted_reply))
+    reply_id = mongodb_interface.insert_one_reply(publication_id,comment_id, reply)
+    reply["_id"] = str(reply_id)
+    return {
+        "message": "Comment successfully posted !",
+        "comment": reply
+    }
 
 @app.get("/insert_samples") # DEBUG
 async def DEBUG():
