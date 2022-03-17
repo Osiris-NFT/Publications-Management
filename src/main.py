@@ -1,74 +1,16 @@
 from fastapi import FastAPI, Response, status, Query
-from classes.db_interface import db_interface
 from bson import ObjectId
 from datetime import datetime
-from pydantic import BaseModel
 from typing import Optional
 import json
 
+from classes.db_interface import db_interface
+import utils
 
 app = FastAPI()
 mongodb_interface = db_interface()
 
-publication_example = {
-    "_id": "5bf142459b72e12b2b1b2cd",
-    "publication_date": "1999-12-31 23:59:59.999999",
-    "user_name": "foo",
-    "content_type": "image",
-    "media_url": "https://image.com/img.png",
-    "category": "photography",
-    "description": "this is the description",
-    "hashtags": ["hashtag1", "hashtag2", "hashtag3"],
-    "likes_count": 23,
-    "comments": [
-        {
-            "_id": "5bf142459b72e12b2b1b2ce",
-            "user": "bar",
-            "plublication_date": "2000-12-31 23: 59: 59.999469",
-            "content": "comment example",
-            "likes_count": 10,
-            "replies": [
-                {
-                    "_id": "5bf142459b72e12b2b1b2c3",
-                    "user": "foo",
-                    "plublication_date": "2001-11-30 20: 10: 42.442765",
-                    "target_user": "bar",
-                    "content": "reply example",
-                    "likes_count": 2
-                }
-            ]
-        }
-    ]
-}
 
-comment_example = {
-    "_id": "5bf142459b72e12b2b1b2cd",
-    "user": "foo",
-    "publication_date": "1999-12-31 23:59:59.999999",
-    "content": "comment example",
-    "likes_count": 0,
-    "replies": []
-}
-
-class publicationModel(BaseModel): #_id, timestamps, hashtags and likes count have to be built by the service afterward
-    publication_name: str
-    user_name: str
-    content_type: str
-    media_url: str = Query(None, regex="((http|https): //)(www.)?" +
-                           "[a-zA-Z0-9@:%._\\+~#?&//=]" +
-                           "{2,256}\\.[a-z]" +
-                           "{2,6}\\b([-a-zA-Z0-9@:%" +
-                           "._\\+~#?&//=]*)")
-    category: str
-
-class commentModel(BaseModel):  #_id, timestamps and likes count have to be built by the service afterward
-    user: str
-    content: str
-
-class replyModel(BaseModel):
-    user: str
-    target_user: str
-    content: str
 
 
 @app.get("/")
@@ -76,37 +18,7 @@ async def root():
     return {"message": "Publication service is alive !"}
 
 
-# possiblement à remplacer par json.dumps
-def stringifyIDs(publication: dict) -> dict:
-    """Stringify every ObjectId() of a mongoDB's publication"""
-    publication['_id'] = str(publication['_id'])
-    for x in range(len(publication["comments"])):
-        publication['comments'][x]['_id'] = str(publication['comments'][x]['_id'])
-        for y in range(len(publication['comments'][x]['replies'])):
-            publication['comments'][x]['replies'][y]['_id'] = str(publication['comments'][x]['replies'][y]['_id'])
-    return publication
 
-def getHashtags(string: str) -> list:
-    str_list = string.split(' ')
-    hashtags = [wrd.strip('#') for wrd in str_list if wrd.lower().startswith('#')]
-    return hashtags
-
-def buildComment(comment: dict) -> dict:
-    hashtags = getHashtags(comment['content'])
-    comment["hashtags"] = hashtags
-    comment["publication_date"] = str(datetime.now())
-    comment["_id"] = ObjectId()
-    comment["likes_count"] = 0
-    comment["replies"] = []
-    return comment
-
-def buildReply(reply: dict) -> dict:
-    hashtags = getHashtags(reply['content'])
-    reply["hashtags"] = hashtags
-    reply["publication_date"] = str(datetime.now())
-    reply["_id"] = ObjectId()
-    reply["likes_count"] = 0
-    return reply
 
 @app.post("/post_publication",
           status_code = status.HTTP_201_CREATED,
@@ -116,12 +28,12 @@ def buildReply(reply: dict) -> dict:
                   "description": "Publication posted.",
                   "content": {
                       "application/json": {
-                          "example": publication_example
+                          "example": utils.publication_example
                       }
                   }
               }
           })
-async def post_publication(publication: publicationModel):
+async def post_publication(publication: utils.publicationModel):
     publication["_id"] = ObjectId()
     publication["publication_date"] = datetime.now()
     publication_id = mongodb_interface.insert_one_publication(publication)
@@ -142,20 +54,20 @@ async def post_publication(publication: publicationModel):
                       "application/json": {
                           "example": {
                               "message": "Comment successfully posted !",
-                              "comment": comment_example
+                              "comment": utils.comment_example
                           }
                       }
                   }
               }
           })
-async def post_a_comment(publication_id: str, posted_comment: commentModel, response: Response):
+async def post_a_comment(publication_id: str, posted_comment: utils.commentModel, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "Invalid ID"
         }
     # Build comment
-    comment = buildComment(dict(posted_comment))
+    comment = utils.buildComment(dict(posted_comment))
     comment_id = mongodb_interface.insert_one_comment(publication_id, comment)
     comment["_id"] = str(comment_id)
     return {
@@ -163,7 +75,6 @@ async def post_a_comment(publication_id: str, posted_comment: commentModel, resp
         "comment": comment
     }
 
-# TODO
 @app.post("/post_reply",
           status_code=status.HTTP_201_CREATED,
           responses={
@@ -174,20 +85,20 @@ async def post_a_comment(publication_id: str, posted_comment: commentModel, resp
                       "application/json": {
                           "example": {
                               "message": "Reply successfully posted !",
-                              "comment": comment_example
+                              "comment": utils.reply_example
                           }
                       }
                   }
               }
           })
-async def post_a_reply(publication_id: str, comment_id: str, posted_reply: replyModel, response: Response):
+async def post_a_reply(publication_id: str, comment_id: str, posted_reply: utils.replyModel, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "Invalid ID"
         }
     # Build reply
-    reply = buildReply(dict(posted_reply))
+    reply = utils.buildReply(dict(posted_reply))
     reply_id = mongodb_interface.insert_one_reply(publication_id,comment_id, reply)
     reply["_id"] = str(reply_id)
     return {
@@ -211,7 +122,7 @@ async def DEBUG():
                  "description": "Publication requested by ID.",
                  "content": {
                      "application/json": {
-                         "example": publication_example
+                         "example": utils.publication_example
                      }
                  }
              }
@@ -225,7 +136,7 @@ async def get_publication(publication_id: str, response: Response):
 
     publication = mongodb_interface.get_one_publication(publication_id)
     if publication != None:
-        formated_publication = stringifyIDs(publication)
+        formated_publication = utils.stringifyIDs(publication)
         return {
             "publication": formated_publication
         }
@@ -245,7 +156,7 @@ async def get_publication(publication_id: str, response: Response):
                  "description": "Publications of the user returned.",
                  "content": {
                      "application/json": {
-                         "example": [publication_example, publication_example]
+                         "example": [utils.publication_example, utils.publication_example]
                      }
                  }
              },
@@ -263,7 +174,7 @@ async def get_user_publications(user_name: str, response: Response):
     if publications != []:
         formated_publications = []
         for publication in publications:
-            formated_publications.append(stringifyIDs(publication))
+            formated_publications.append(utils.stringifyIDs(publication))
         return {
             "message": "publications returned",
             "publications": formated_publications
@@ -284,7 +195,7 @@ async def get_user_publications(user_name: str, response: Response):
                     "content": {
                         "application/json": {
                             "example":
-                                publication_example
+                                utils.publication_example
                         }
                     }
                 }
@@ -298,7 +209,7 @@ async def delete_publication(publication_id: str ,response: Response):
 
     removed_publication = mongodb_interface.delete_one_publication(publication_id)
     if removed_publication != None:
-        formated_publication = stringifyIDs(removed_publication)
+        formated_publication = utils.stringifyIDs(removed_publication)
         return {
             "message": f"publication {publication_id} deleted",
             "removed publication": formated_publication
