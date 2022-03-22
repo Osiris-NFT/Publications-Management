@@ -18,8 +18,6 @@ async def root():
     return {"message": "Publication service is alive !"}
 
 
-
-
 @app.post("/post_publication",
           status_code = status.HTTP_201_CREATED,
           responses={
@@ -33,9 +31,8 @@ async def root():
                   }
               }
           })
-async def post_publication(publication: utils.publicationModel):
-    publication["_id"] = ObjectId()
-    publication["publication_date"] = datetime.now()
+async def post_publication(posted_publication: utils.publicationModel, response: Response):
+    publication = utils.buildPublication(dict(posted_publication))
     publication_id = mongodb_interface.insert_one_publication(publication)
     publication["_id"] = publication_id
     return {

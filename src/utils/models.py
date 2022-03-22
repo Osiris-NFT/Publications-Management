@@ -6,13 +6,14 @@ from fastapi import Query
 class publicationModel(BaseModel):
     publication_name: str
     user_name: str
-    content_type: str
-    media_url: str = Query(None, regex="((http|https): //)(www.)?" +
-                           "[a-zA-Z0-9@:%._\\+~#?&//=]" +
-                           "{2,256}\\.[a-z]" +
-                           "{2,6}\\b([-a-zA-Z0-9@:%" +
-                           "._\\+~#?&//=]*)")
-    category: str
+    description: str
+    content_type: str = Query(None, regex="image|video|gif|tweet|audio")
+    media_url: str #= Query(None, regex="((http|https): //)(www.)?" +
+                   #        "[a-zA-Z0-9@:%._\\+~#?&//=]" +
+                   #        "{2,256}\\.[a-z]" +
+                   #        "{2,6}\\b([-a-zA-Z0-9@:%" +
+                   #        "._\\+~#?&//=]*)")
+    category: str = Query(None, regex="pixel-art|digital-drawing|photography")
 
 
 # _id, timestamps and likes count have to be built by the service afterward

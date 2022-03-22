@@ -19,7 +19,14 @@ def buildReply(reply: dict) -> dict:
     reply["likes_count"] = 0
     return reply
 
-# possiblement à remplacer par json.dumps
+def buildPublication(publication: dict) -> dict:
+    hashtags = getHashtags(publication["description"])
+    publication["hashtags"] = hashtags
+    publication["publication_date"] = str(datetime.now())
+    publication["_id"] = ObjectId()
+    publication["likes_count"] = 0
+    publication["comments"] = []
+    return publication
 
 
 def stringifyIDs(publication: dict) -> dict:
