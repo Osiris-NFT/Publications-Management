@@ -139,7 +139,7 @@ class db_interface:
             print(f'Comment \'{comment_id}\' got a like.')
             return True
 
-    # BROKEN
+    # FIXME
     def like_one_reply(self,publication_id: str, comment_id: str, reply_id: str):
         updated_pub = self.collection.find_one_and_update(
             {
@@ -194,3 +194,58 @@ class db_interface:
         print(
             f"Reply with id '{result_id}' by '{result['replies'][-1]['user']}' inserted in DB")
         return result_id
+
+    def unlike_one_publication(self, publication_id: str):
+        updated_pub = self.collection.find_one_and_update(
+            {"_id": ObjectId(publication_id)},
+            {
+                "$inc": {
+                    "likes_count": -1
+                }
+            }
+        )
+        if updated_pub == None:
+            return False
+        else:
+            print(f'Publication \'{publication_id}\' got -1 like.')
+            return True
+
+    def unlike_one_comment(self, publication_id: str, comment_id: str):
+        updated_pub = self.collection.find_one_and_update(
+            {
+                    "_id": ObjectId(publication_id),
+                    "comments._id": ObjectId(comment_id)
+                },
+                {
+                    "$inc": {
+                        "comments.$.likes_count": -1
+                    }
+                }
+            )
+        if updated_pub == None:
+                return False
+        else:
+            print(f'Comment \'{comment_id}\' got -1 like.')
+            return True
+
+    # FIXME
+    def unlike_one_reply(self,publication_id: str, comment_id: str, reply_id: str):
+        updated_pub = self.collection.find_one_and_update(
+            {
+                "_id": ObjectId(publication_id),
+                "comments._id": ObjectId(comment_id),
+                "comments.replies._id": ObjectId(reply_id)
+            },
+            {
+                "$inc": {
+                    "replies.$.likes_count": -1
+                }
+            },
+            return_document=ReturnDocument.AFTER
+        )
+        print(updated_pub)
+        if updated_pub == None:
+            return False
+        else:
+            print(f'Reply \'{reply_id}\' got -1 like.')
+            return True

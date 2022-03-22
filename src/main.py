@@ -404,4 +404,100 @@ async def like_a_reply(publication_id: str, comment_id: str, reply_id: str, resp
         }
 
 
+@app.patch("/unlike_publication",
+           status_code=status.HTTP_200_OK,
+           responses={
+               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               404: {"description": "The publication does not exit."},
+               200: {
+                   "description": "Publication got unliked successfully.",
+                   "content": {
+                       "application/json": {
+                           "example": {"message": "Publication unliked !"}
+                       }
+                   }
+               }
+           })
+def unlike_a_publication(publication_id: str, response: Response):
+    if not ObjectId.is_valid(publication_id):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+        }
+    is_success = mongodb_interface.unlike_one_publication(publication_id)
+    if is_success:
+        return{
+            "message": "Publication unliked !"
+        }
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return{
+            "message": "Publication does not exist"
+        }
 
+
+@app.patch("/unlike_comment",
+           status_code=status.HTTP_200_OK,
+           responses={
+               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               404: {"description": "The  or comment does not exit."},
+               200: {
+                   "description": "Comment got unliked successfully.",
+                   "content": {
+                       "application/json": {
+                           "example": {"message": "Comment unliked !"}
+                       }
+                   }
+               }
+           })
+async def unlike_a_comment(publication_id: str, comment_id: str, response: Response):
+    if not (
+            ObjectId.is_valid(publication_id)
+            and ObjectId.is_valid(comment_id)):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+        }
+    is_success = mongodb_interface.unlike_one_comment(publication_id, comment_id)
+    if is_success:
+        return{
+            "message": "Comment unliked !"
+        }
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return{
+            "message": "Publication or comment does not exist"
+        }
+
+# FIXME
+@app.patch("/unlike_reply",
+           status_code=status.HTTP_200_OK,
+           responses={
+               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               404: {"description": "The publication, comment or reply does not exit."},
+               200: {
+                   "description": "Reply got unliked successfully.",
+                   "content": {
+                       "application/json": {
+                           "example": {"message": "Reply unliked !"}
+                       }
+                   }
+               }
+           })
+async def unlike_a_reply(publication_id: str, comment_id: str, reply_id: str, response: Response):
+    if not (ObjectId.is_valid(publication_id) and ObjectId.is_valid(comment_id) and ObjectId.is_valid(reply_id)):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+        }
+    is_success = mongodb_interface.unlike_one_reply(
+        publication_id, comment_id, reply_id)
+    if is_success:
+        return{
+            "message": "Reply unliked !"
+        }
+    else:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return{
+            "message": "Publication, comment or reply does not exist"
+        }
