@@ -8,11 +8,7 @@ class publicationModel(BaseModel):
     user_name: str
     description: str
     content_type: str = Query(None, regex="image|video|gif|tweet|audio")
-    media_url: str #= Query(None, regex="((http|https): //)(www.)?" +
-                   #        "[a-zA-Z0-9@:%._\\+~#?&//=]" +
-                   #        "{2,256}\\.[a-z]" +
-                   #        "{2,6}\\b([-a-zA-Z0-9@:%" +
-                   #        "._\\+~#?&//=]*)")
+    media_url: str = Query(None, regex=r"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)")
     category: str = Query(None, regex="pixel-art|digital-drawing|photography")
 
 

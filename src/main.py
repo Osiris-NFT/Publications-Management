@@ -239,7 +239,7 @@ async def delete_publications_of_user(user_name: str):
 
 
 #Doit recup le com
-@app.delete("/delete_comment",
+@app.delete("/delete_comment_by_id",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
                 400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -274,7 +274,7 @@ async def delete_comment(publication_id: str, comment_id: str, response: Respons
 
 
 #Doit récup la reply / possiblement delete les replies repondants a cette meme reply
-@app.delete("/delete_reply",
+@app.delete("/delete_reply_by_id",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
                 400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
