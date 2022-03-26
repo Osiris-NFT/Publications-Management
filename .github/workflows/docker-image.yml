@@ -2,12 +2,11 @@ name: Docker Image Build & Push
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths:
+    - src/**
 
-env:
-  TAG: $(date +%s)
+#env:
+#  TAG: $(date +%s)
 
 jobs:
 
@@ -25,13 +24,13 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Dynamically set MY_DATE environment variable
-      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
+    #- name: Dynamically set MY_DATE environment variable
+    #  run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
 
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mightyfoxx/publications-service:$TAG
+      run: docker build . --file Dockerfile --tag mightyfoxx/publications-service:latest
    
     - uses: actions/checkout@v2
     - name: Push the Docker image
-      run: docker push mightyfoxx/publications-service:$TAG
+      run: docker push mightyfoxx/publications-service:latest
