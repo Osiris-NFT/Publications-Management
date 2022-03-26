@@ -3,7 +3,7 @@ name: Docker Image Build & Push
 on:
   push:
     paths:
-    - src/**
+    - _debug_dep/src/**
 
 #env:
 #  TAG: $(date +%s)
@@ -29,8 +29,8 @@ jobs:
 
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mightyfoxx/publications-service:latest
+      run: docker build . --file Dockerfile --tag mightyfoxx/pub_debug:latest
    
     - uses: actions/checkout@v2
     - name: Push the Docker image
-      run: docker push mightyfoxx/publications-service:latest
+      run: docker push mightyfoxx/pub_debug:latest
