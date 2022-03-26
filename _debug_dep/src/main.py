@@ -13,7 +13,7 @@ mongodb_interface = db_interface()
 
 
 
-@app.get("/")
+@app.get("/") 
 async def root():
     return {"message": "Publication service is alive !"}
 
