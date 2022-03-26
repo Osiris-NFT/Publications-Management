@@ -23,7 +23,7 @@ RUN apk update && \
 COPY src /home/publications-service/src
 COPY run.sh /home/publications-service/
 
-EXPOSE 8000
+EXPOSE 8080
 
 WORKDIR /home/publications-service/
 
