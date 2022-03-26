@@ -29,7 +29,7 @@ jobs:
 
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mightyfoxx/pub_debug:latest
+      run: cd _debug_dep ; docker build . --file Dockerfile --tag mightyfoxx/pub_debug:latest
    
     - uses: actions/checkout@v2
     - name: Push the Docker image
