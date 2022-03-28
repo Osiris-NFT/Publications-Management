@@ -1,8 +1,9 @@
 from fastapi import FastAPI, Response, status, Query
 from bson import ObjectId
-from datetime import datetime
+import datetime
 from typing import Optional
 import json
+import random
 
 from classes.db_interface import db_interface
 import utils
@@ -501,3 +502,43 @@ async def unlike_a_reply(publication_id: str, comment_id: str, reply_id: str, re
         return{
             "message": "Publication, comment or reply does not exist"
         }
+
+
+@app.get("/get_recent_publications")
+async def get_recent_publications(hours_time_delta: int, response: Response):
+    since_date = datetime.datetime.now() - datetime.timedelta(hours=hours_time_delta)
+    db_res = mongodb_interface.get_publications_since(since_date)
+    response.status_code = status.HTTP_200_OK
+    formated_pubs = []
+    for pub in db_res:
+        formated_pubs.append(utils.stringifyIDs(pub))
+    return formated_pubs
+
+@app.get("/trend_tracker_get_recent_publications")
+async def get_recent_publications_ids_and_likes(hours_time_delta: int, response: Response):
+    since_date = datetime.datetime.now() - datetime.timedelta(hours=hours_time_delta)
+    db_res = mongodb_interface.get_publications_since(since_date)
+    response.status_code = status.HTTP_200_OK
+    result = {}
+    for pub in db_res:
+        result[str(pub["_id"])] = pub["likes_count"]
+    return result
+
+@app.get("/trend_tracker_get_many_publications")
+async def get_many_publications_ids_and_likes(id_list_str: str, response: Response):
+    id_list = id_list_str.split(',')
+    print(id_list)
+    response_list = {}
+    for _id in id_list:
+        if not (ObjectId.is_valid(_id)):
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return {
+                "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+            }
+        db_res = mongodb_interface.get_one_publication(publication_id=_id)
+        if db_res == None:
+            continue
+        else:
+            response_list[_id] = db_res["likes_count"]
+    response.status_code = status.HTTP_200_OK
+    return response_list
