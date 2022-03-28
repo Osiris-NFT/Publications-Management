@@ -30,8 +30,8 @@ jobs:
 
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag mightyfoxx/osiris_publications-service:latest
+      run: docker build . --file Dockerfile --tag mightyfoxx/osiris_publications-management:latest
    
     - uses: actions/checkout@v2
     - name: Push the Docker image
-      run: docker push mightyfoxx/osiris_publications-service:latest
+      run: docker push mightyfoxx/osiris_publications-management:latest
