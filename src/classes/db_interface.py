@@ -8,7 +8,7 @@ class db_interface:
     
     
     def __init__(self):
-        """
+        
         # PROD
         database_url = os.environ["DATABASE_URL"]    #get every values of env
         db_name = os.environ["DB_NAME"]
@@ -22,7 +22,7 @@ class db_interface:
         self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/") # connection to MongoDB
         self.database = self.client["publications-service"]  # select MongoDB's database
         self.collection = self.database["publications"] # select database's Collection
-        
+        """
         
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)

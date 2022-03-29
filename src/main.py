@@ -4,6 +4,8 @@ import datetime
 from typing import Optional
 import json
 import random
+import requests
+import os
 
 from classes.db_interface import db_interface
 import utils
@@ -11,7 +13,13 @@ import utils
 app = FastAPI()
 mongodb_interface = db_interface()
 
+"""
+# DEBUG
+TRENDTRACKER_URL = "http://0.0.0.0:8080/"
+"""
+TRENDTRACKER_URL = os.environ["TRENDTRACKER_URL"]
 
+TRENDTRACKER_BL_ENDPOINT = "get_new_best_publications_ids"
 
 
 @app.get("/")
@@ -504,7 +512,7 @@ async def unlike_a_reply(publication_id: str, comment_id: str, reply_id: str, re
         }
 
 
-@app.get("/get_recent_publications")
+@app.get("/get_recent_publications")  # TODO DOC
 async def get_recent_publications(hours_time_delta: int, response: Response):
     since_date = datetime.datetime.now() - datetime.timedelta(hours=hours_time_delta)
     db_res = mongodb_interface.get_publications_since(since_date)
@@ -514,7 +522,8 @@ async def get_recent_publications(hours_time_delta: int, response: Response):
         formated_pubs.append(utils.stringifyIDs(pub))
     return formated_pubs
 
-@app.get("/trend_tracker_get_recent_publications")
+
+@app.get("/trend_tracker_get_recent_publications")  # TODO DOC
 async def get_recent_publications_ids_and_likes(hours_time_delta: int, response: Response):
     since_date = datetime.datetime.now() - datetime.timedelta(hours=hours_time_delta)
     db_res = mongodb_interface.get_publications_since(since_date)
@@ -524,7 +533,8 @@ async def get_recent_publications_ids_and_likes(hours_time_delta: int, response:
         result[str(pub["_id"])] = pub["likes_count"]
     return result
 
-@app.get("/trend_tracker_get_many_publications")
+
+@app.get("/trend_tracker_get_many_publications")  # TODO DOC
 async def get_many_publications_ids_and_likes(id_list_str: str, response: Response):
     id_list = id_list_str.split(',')
     print(id_list)
@@ -542,3 +552,31 @@ async def get_many_publications_ids_and_likes(id_list_str: str, response: Respon
             response_list[_id] = db_res["likes_count"]
     response.status_code = status.HTTP_200_OK
     return response_list
+
+
+@app.get("/new_best_publications")  # TODO DOC TODO TESTS
+async def get_new_best_publications_list(response: Response):
+    try:
+        get = requests.get(TRENDTRACKER_URL + TRENDTRACKER_BL_ENDPOINT)
+        if get.status_code == 200:
+            response.status_code == status.HTTP_200_OK
+            result = []
+            for _id in json.loads(get.text)["new_best_ids"]:
+                pub = mongodb_interface.get_one_publication(_id)
+                result.append(utils.stringifyIDs(pub))
+            return {
+                "best_new": result
+            }
+
+        elif get.status_code == 204:
+            response.status_code == status.HTTP_204_NO_CONTENT
+            return {
+                "message": "No new publications available."
+            }
+        else:
+            raise Exception()
+    except Exception:
+        response.status_code == status.HTTP_503_SERVICE_UNAVAILABLE
+        return {
+            "message": "Error while requesting new best publications."
+        }
