@@ -116,7 +116,7 @@ class db_interface:
             return True
 
 
-    def like_one_publication(self, publication_id) -> bool:
+    def upvote_one_publication(self, publication_id) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
             {
@@ -132,7 +132,7 @@ class db_interface:
             return True
 
 
-    def like_one_comment(self, publication_id: str, comment_id: str):
+    def upvote_one_comment(self, publication_id: str, comment_id: str):
         updated_pub = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
@@ -151,7 +151,7 @@ class db_interface:
             return True
 
     # FIXME
-    def like_one_reply(self,publication_id: str, comment_id: str, reply_id: str):
+    def upvote_one_reply(self,publication_id: str, comment_id: str, reply_id: str):
         updated_pub = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
@@ -209,7 +209,7 @@ class db_interface:
         return result_id
 
 
-    def unlike_one_publication(self, publication_id: str) -> bool:
+    def downvote_one_publication(self, publication_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
             {
@@ -225,7 +225,7 @@ class db_interface:
             return True
 
 
-    def unlike_one_comment(self, publication_id: str, comment_id: str) -> bool:
+    def downvote_one_comment(self, publication_id: str, comment_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {
                     "_id": ObjectId(publication_id),
@@ -245,7 +245,7 @@ class db_interface:
 
 
     # FIXME
-    def unlike_one_reply(self,publication_id: str, comment_id: str, reply_id: str) -> bool:
+    def downvote_one_reply(self,publication_id: str, comment_id: str, reply_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),

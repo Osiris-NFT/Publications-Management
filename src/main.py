@@ -317,30 +317,30 @@ async def delete_reply(publication_id: str, comment_id: str, reply_id: str, resp
         }
 
 
-@app.patch("/like_publication",
+@app.patch("/upvote_publication",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication does not exit."},
                200: {
-                   "description": "Publication got liked successfully.",
+                   "description": "Publication got upvoted successfully.",
                    "content": {
                        "application/json": {
-                           "example": {"message": "Publication liked !"}
+                           "example": {"message": "Publication upvoted !"}
                        }
                    }
                }
            })
-async def like_a_publication(publication_id: str, response: Response):
+async def upvote_a_publication(publication_id: str, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    is_success = mongodb_interface.like_one_publication(publication_id)
+    is_success = mongodb_interface.upvote_one_publication(publication_id)
     if is_success:
         return{
-            "message": "Publication liked !"
+            "message": "Publication upvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -348,21 +348,21 @@ async def like_a_publication(publication_id: str, response: Response):
             "message": "Publication does not exist"
         }
 
-@app.patch("/like_comment", 
+@app.patch("/upvote_comment", 
             status_code = status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The  or comment does not exit."},
                200: {
-                   "description": "Comment got liked successfully.",
+                   "description": "Comment got upvoted successfully.",
                    "content": {
                        "application/json": {
-                           "example": {"message": "Comment liked !"}
+                           "example": {"message": "Comment upvoted !"}
                        }
                    }
                }
            })
-async def like_a_comment(publication_id: str, comment_id: str, response: Response):
+async def upvote_a_comment(publication_id: str, comment_id: str, response: Response):
     if not (
             ObjectId.is_valid(publication_id)
             and ObjectId.is_valid(comment_id)):
@@ -370,10 +370,10 @@ async def like_a_comment(publication_id: str, comment_id: str, response: Respons
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    is_success = mongodb_interface.like_one_comment(publication_id, comment_id)
+    is_success = mongodb_interface.upvote_one_comment(publication_id, comment_id)
     if is_success:
         return{
-            "message": "Comment liked !"
+            "message": "Comment upvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -381,30 +381,30 @@ async def like_a_comment(publication_id: str, comment_id: str, response: Respons
             "message": "Publication or comment does not exist"
         }
 
-@app.patch("/like_reply",
+@app.patch("/upvote_reply",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication, comment or reply does not exit."},
                200: {
-                   "description": "Reply got liked successfully.",
+                   "description": "Reply got upvoted successfully.",
                    "content": {
                        "application/json": {
-                           "example": {"message": "Reply liked !"}
+                           "example": {"message": "Reply upvoted !"}
                        }
                    }
                }
            })
-async def like_a_reply(publication_id: str, comment_id: str, reply_id: str, response: Response):
+async def upvote_a_reply(publication_id: str, comment_id: str, reply_id: str, response: Response):
     if not (ObjectId.is_valid(publication_id) and ObjectId.is_valid(comment_id) and ObjectId.is_valid(reply_id)):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    is_success = mongodb_interface.like_one_reply(publication_id, comment_id, reply_id)
+    is_success = mongodb_interface.upvote_one_reply(publication_id, comment_id, reply_id)
     if is_success:
         return{
-            "message": "Reply liked !"
+            "message": "Reply upvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -413,30 +413,30 @@ async def like_a_reply(publication_id: str, comment_id: str, reply_id: str, resp
         }
 
 
-@app.patch("/unlike_publication",
+@app.patch("/downvote_publication",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication does not exit."},
                200: {
-                   "description": "Publication got unliked successfully.",
+                   "description": "Publication got downvoted successfully.",
                    "content": {
                        "application/json": {
-                           "example": {"message": "Publication unliked !"}
+                           "example": {"message": "Publication downvoted !"}
                        }
                    }
                }
            })
-def unlike_a_publication(publication_id: str, response: Response):
+def downvote_a_publication(publication_id: str, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    is_success = mongodb_interface.unlike_one_publication(publication_id)
+    is_success = mongodb_interface.downvote_one_publication(publication_id)
     if is_success:
         return{
-            "message": "Publication unliked !"
+            "message": "Publication downvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -445,21 +445,21 @@ def unlike_a_publication(publication_id: str, response: Response):
         }
 
 
-@app.patch("/unlike_comment",
+@app.patch("/downvote_comment",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The  or comment does not exit."},
                200: {
-                   "description": "Comment got unliked successfully.",
+                   "description": "Comment got downvoted successfully.",
                    "content": {
                        "application/json": {
-                           "example": {"message": "Comment unliked !"}
+                           "example": {"message": "Comment downvoted !"}
                        }
                    }
                }
            })
-async def unlike_a_comment(publication_id: str, comment_id: str, response: Response):
+async def downvote_a_comment(publication_id: str, comment_id: str, response: Response):
     if not (
             ObjectId.is_valid(publication_id)
             and ObjectId.is_valid(comment_id)):
@@ -467,10 +467,10 @@ async def unlike_a_comment(publication_id: str, comment_id: str, response: Respo
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    is_success = mongodb_interface.unlike_one_comment(publication_id, comment_id)
+    is_success = mongodb_interface.downvote_one_comment(publication_id, comment_id)
     if is_success:
         return{
-            "message": "Comment unliked !"
+            "message": "Comment downvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -479,31 +479,31 @@ async def unlike_a_comment(publication_id: str, comment_id: str, response: Respo
         }
 
 # FIXME
-@app.patch("/unlike_reply",
+@app.patch("/downvote_reply",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication, comment or reply does not exit."},
                200: {
-                   "description": "Reply got unliked successfully.",
+                   "description": "Reply got downvoted successfully.",
                    "content": {
                        "application/json": {
-                           "example": {"message": "Reply unliked !"}
+                           "example": {"message": "Reply downvoted !"}
                        }
                    }
                }
            })
-async def unlike_a_reply(publication_id: str, comment_id: str, reply_id: str, response: Response):
+async def downvote_a_reply(publication_id: str, comment_id: str, reply_id: str, response: Response):
     if not (ObjectId.is_valid(publication_id) and ObjectId.is_valid(comment_id) and ObjectId.is_valid(reply_id)):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    is_success = mongodb_interface.unlike_one_reply(
+    is_success = mongodb_interface.downvote_one_reply(
         publication_id, comment_id, reply_id)
     if is_success:
         return{
-            "message": "Reply unliked !"
+            "message": "Reply downvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -585,3 +585,4 @@ async def get_new_best_publications_list(response: Response):
         return {
             "message": "Error while requesting new best publications."
         }
+        
