@@ -514,6 +514,11 @@ async def unlike_a_reply(publication_id: str, comment_id: str, reply_id: str, re
 
 @app.get("/get_recent_publications")  # TODO DOC
 async def get_recent_publications(hours_time_delta: int, response: Response):
+    if hours_time_delta > 24:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "Time delta cannot be greater than 24 hours"
+        }
     since_date = datetime.datetime.now() - datetime.timedelta(hours=hours_time_delta)
     db_res = mongodb_interface.get_publications_since(since_date)
     response.status_code = status.HTTP_200_OK
