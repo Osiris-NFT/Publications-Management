@@ -17,7 +17,7 @@ mongodb_interface = db_interface()
 # DEBUG
 TRENDTRACKER_URL = "http://0.0.0.0:8080/"
 """
-TRENDTRACKER_URL = os.environ["TRENDTRACKER_URL"]
+TRENDTRACKER_URL = "http://" + os.environ["TRENDTRACKER_URL"] + "/"
 
 TRENDTRACKER_BL_ENDPOINT = "get_new_best_publications_ids"
 
