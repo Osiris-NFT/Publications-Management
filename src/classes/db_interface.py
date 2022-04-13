@@ -8,21 +8,22 @@ class db_interface:
     
     
     def __init__(self):
+        if os.environ["DEPLOYMENT_MODE"] == "PROD":
+            database_url = os.environ["DATABASE_URL"]    #get every values of env
+            db_name = os.environ["DB_NAME"]
+            collection_name = os.environ["COLLECTION_NAME"]
+            
+            self.client = pymongo.MongoClient(database_url) # connection to MongoDB
+            self.database = self.client[db_name]  # select MongoDB's database
+            self.collection = self.database[collection_name] # select database's Collection
+        elif os.environ["DEPLOYMENT_MODE"] == "DEBUG":
+            self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/") # connection to MongoDB
+            self.database = self.client["publications-service"]  # select MongoDB's database
+            self.collection = self.database["publications"] # select database's Collection
+        else:
+            print("ERROR: Bad deployment mode.")
+            exit(1)
         
-        # PROD
-        database_url = os.environ["DATABASE_URL"]    #get every values of env
-        db_name = os.environ["DB_NAME"]
-        collection_name = os.environ["COLLECTION_NAME"]
-        
-        self.client = pymongo.MongoClient(database_url) # connection to MongoDB
-        self.database = self.client[db_name]  # select MongoDB's database
-        self.collection = self.database[collection_name] # select database's Collection
-        """
-        #DEBUG
-        self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/") # connection to MongoDB
-        self.database = self.client["publications-service"]  # select MongoDB's database
-        self.collection = self.database["publications"] # select database's Collection
-        """
         
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
