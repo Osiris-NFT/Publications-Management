@@ -564,7 +564,7 @@ async def get_new_best_publications_list(response: Response):
     try:
         get = requests.get(TRENDTRACKER_URL + ':'+ TRENDTRACKER_PORT + TRENDTRACKER_BL_ENDPOINT)
         if get.status_code == 200:
-            response.status_code == status.HTTP_200_OK
+            response.status_code = status.HTTP_200_OK
             result = []
             for _id in json.loads(get.text)["new_best_ids"]:
                 pub = mongodb_interface.get_one_publication(_id)
@@ -574,14 +574,14 @@ async def get_new_best_publications_list(response: Response):
             }
 
         elif get.status_code == 204:
-            response.status_code == status.HTTP_204_NO_CONTENT
+            response.status_code = status.HTTP_204_NO_CONTENT
             return {
                 "message": "No new publications available."
             }
         else:
             raise Exception()
     except Exception:
-        response.status_code == status.HTTP_503_SERVICE_UNAVAILABLE
+        response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
         return {
             "message": "Error while requesting new best publications."
         }
