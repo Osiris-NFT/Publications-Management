@@ -16,10 +16,16 @@ class db_interface:
             self.client = pymongo.MongoClient(database_url) # connection to MongoDB
             self.database = self.client[db_name]  # select MongoDB's database
             self.collection = self.database[collection_name] # select database's Collection
+            
+            print("INFO: Deployment in production mode.")
+            
         elif os.environ["DEPLOYMENT_MODE"] == "DEBUG":
             self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/") # connection to MongoDB
             self.database = self.client["publications-service"]  # select MongoDB's database
             self.collection = self.database["publications"] # select database's Collection
+            
+            print("INFO: Deployment in debug mode.")
+            
         else:
             print("ERROR: Bad deployment mode.")
             exit(1)
