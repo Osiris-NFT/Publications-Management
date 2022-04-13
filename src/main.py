@@ -17,9 +17,9 @@ mongodb_interface = db_interface()
 # DEBUG
 TRENDTRACKER_URL = "http://0.0.0.0:8080/"
 """
-TRENDTRACKER_URL = "http://" + os.environ["TRENDTRACKER_URL"] + "/"
-
-TRENDTRACKER_BL_ENDPOINT = "get_new_best_publications_ids"
+TRENDTRACKER_URL = os.environ["TRENDTRACKER_URL"]
+TRENDTRACKER_PORT = os.environ["TRENDTRACKER_PORT"]
+TRENDTRACKER_BL_ENDPOINT = "/get_new_best_publications_ids"
 
 
 @app.get("/")
@@ -562,7 +562,7 @@ async def get_many_publications_ids_and_likes(id_list_str: str, response: Respon
 @app.get("/new_best_publications")  # TODO DOC TODO TESTS
 async def get_new_best_publications_list(response: Response):
     try:
-        get = requests.get(TRENDTRACKER_URL + TRENDTRACKER_BL_ENDPOINT)
+        get = requests.get(TRENDTRACKER_URL + ':'+ TRENDTRACKER_PORT + TRENDTRACKER_BL_ENDPOINT)
         if get.status_code == 200:
             response.status_code == status.HTTP_200_OK
             result = []
