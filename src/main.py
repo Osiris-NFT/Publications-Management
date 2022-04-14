@@ -50,7 +50,7 @@ async def post_publication(posted_publication: utils.publicationModel, response:
     }
 
 
-@app.post("/post_comment",
+@app.post("/post_comment/{publication_id}",
           status_code=status.HTTP_201_CREATED,
           responses={
               400: {"description": "Wrong format."},
@@ -81,7 +81,7 @@ async def post_a_comment(publication_id: str, posted_comment: utils.commentModel
         "comment": comment
     }
 
-@app.post("/post_reply",
+@app.post("/post_reply/{publication_id}/{comment_id}",
           status_code=status.HTTP_201_CREATED,
           responses={
               400: {"description": "Wrong format."},
