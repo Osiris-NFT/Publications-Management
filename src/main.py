@@ -525,7 +525,9 @@ async def get_recent_publications(hours_time_delta: int, response: Response):
     formated_pubs = []
     for pub in db_res:
         formated_pubs.append(utils.stringifyIDs(pub))
-    return formated_pubs
+    return {
+        "new_best": formated_pubs
+    }
 
 
 @app.get("/trend_tracker_get_recent_publications")  # TODO DOC
