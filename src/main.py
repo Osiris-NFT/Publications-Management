@@ -520,7 +520,19 @@ async def downvote_a_reply(publication_id: str, comment_id: str, reply_id: str, 
         }
 
 
-@app.get("/get_recent_publications")  # TODO DOC
+@app.get("/get_recent_publications",
+         responses={
+             400: {
+                 "description": "Time delta cannot be greater than 24 hours."},
+             200: {
+                 "description": "Recent publications returned.",
+                 "content": {
+                     "application/json": {
+                         "example": {"new": [utils.publication_example, utils.publication_example]}
+                     }
+                 }
+             }
+         })
 async def get_recent_publications(hours_time_delta: int, response: Response):
     if hours_time_delta > 24:
         response.status_code = status.HTTP_400_BAD_REQUEST
@@ -534,11 +546,25 @@ async def get_recent_publications(hours_time_delta: int, response: Response):
     for pub in db_res:
         formatted_pubs.append(utils.stringify_ids(pub))
     return {
-        "new_best": formatted_pubs
+        "new": formatted_pubs
     }
 
 
-@app.get("/trend_tracker_get_recent_publications")  # TODO DOC
+@app.get("/trend_tracker_get_recent_publications",
+         responses={
+             200: {
+                 "description": "Recent publications returned.",
+                 "content": {
+                     "application/json": {
+                         "example": {
+                             "87639a2738b16f89": 313,
+                             "876398273e916489": 3,
+                         }
+                     }
+                 }
+             }
+         }
+         )
 async def get_recent_publications_ids_and_likes(hours_time_delta: int, response: Response):
     since_date = datetime.datetime.now() - datetime.timedelta(hours=hours_time_delta)
     db_res = mongodb_interface.get_publications_since(since_date)
@@ -549,7 +575,23 @@ async def get_recent_publications_ids_and_likes(hours_time_delta: int, response:
     return result
 
 
-@app.get("/trend_tracker_get_many_publications")  # TODO DOC
+@app.get("/trend_tracker_get_many_publications",
+         responses={
+             400: {
+                 "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+             200: {
+                 "description": "Recent publications returned.",
+                 "content": {
+                     "application/json": {
+                         "example": {
+                             "87639a2738b16f89": 313,
+                             "876398273e916489": 3,
+                         }
+                     }
+                 }
+             }
+         }
+         )
 async def get_many_publications_ids_and_likes(id_list_str: str, response: Response):
     id_list = id_list_str.split(',')
     print(id_list)
@@ -561,7 +603,7 @@ async def get_many_publications_ids_and_likes(id_list_str: str, response: Respon
                 "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
             }
         db_res = mongodb_interface.get_one_publication(publication_id=_id)
-        if db_res == None:
+        if db_res is None:
             continue
         else:
             response_list[_id] = db_res["likes_count"]
@@ -569,7 +611,21 @@ async def get_many_publications_ids_and_likes(id_list_str: str, response: Respon
     return response_list
 
 
-@app.get("/new_best_publications")  # TODO DOC TODO TESTS
+@app.get("/new_best_publications",
+         responses={
+             503: {
+                 "description": "Error while requesting new best publications."},
+             204: {"description": "No new publications available."},
+             200: {
+                 "description": "New best publications returned.",
+                 "content": {
+                     "application/json": {
+                         "example": {"new_best": [utils.publication_example, utils.publication_example]}
+                     }
+                 }
+             }
+         }
+         )
 async def get_new_best_publications_list(response: Response):
     try:
         get = requests.get(TRENDTRACKER_URL + ':' + TRENDTRACKER_PORT + TRENDTRACKER_BL_ENDPOINT)
