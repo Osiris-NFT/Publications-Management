@@ -248,7 +248,7 @@ async def delete_publications_of_user(user_name: str):
 
 
 #Doit recup le com
-@app.delete("/delete_comment_by_id",
+@app.delete("/delete_comment_by_id/{publication_id}/{comment_id}",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
                 400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -283,7 +283,7 @@ async def delete_comment(publication_id: str, comment_id: str, response: Respons
 
 
 #Doit récup la reply / possiblement delete les replies repondants a cette meme reply
-@app.delete("/delete_reply_by_id",
+@app.delete("/delete_reply_by_id/{publication_id}/{comment_id}/{reply_id}",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
                 400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -317,7 +317,7 @@ async def delete_reply(publication_id: str, comment_id: str, reply_id: str, resp
         }
 
 
-@app.patch("/upvote_publication",
+@app.patch("/upvote_publication/{publication_id}",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -348,7 +348,7 @@ async def upvote_a_publication(publication_id: str, response: Response):
             "message": "Publication does not exist"
         }
 
-@app.patch("/upvote_comment", 
+@app.patch("/upvote_comment/{publication_id}/{comment_id}",
             status_code = status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -381,7 +381,7 @@ async def upvote_a_comment(publication_id: str, comment_id: str, response: Respo
             "message": "Publication or comment does not exist"
         }
 
-@app.patch("/upvote_reply",
+@app.patch("/upvote_reply/{publication_id}/{comment_id}/{reply_id}",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -413,7 +413,7 @@ async def upvote_a_reply(publication_id: str, comment_id: str, reply_id: str, re
         }
 
 
-@app.patch("/downvote_publication",
+@app.patch("/downvote_publication/{publication_id}",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -445,7 +445,7 @@ def downvote_a_publication(publication_id: str, response: Response):
         }
 
 
-@app.patch("/downvote_comment",
+@app.patch("/downvote_comment/{publication_id}/{comment_id}",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
@@ -479,7 +479,7 @@ async def downvote_a_comment(publication_id: str, comment_id: str, response: Res
         }
 
 # FIXME
-@app.patch("/downvote_reply",
+@app.patch("/downvote_reply/{publication_id}/{comment_id}/{reply_id}",
            status_code=status.HTTP_200_OK,
            responses={
                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
