@@ -13,10 +13,6 @@ import utils
 app = FastAPI()
 mongodb_interface = db_interface()
 
-"""
-# DEBUG
-TRENDTRACKER_URL = "http://0.0.0.0:8080/"
-"""
 TRENDTRACKER_URL = os.environ["TRENDTRACKER_URL"]
 TRENDTRACKER_PORT = os.environ["TRENDTRACKER_PORT"]
 TRENDTRACKER_BL_ENDPOINT = "/get_new_best_publications_ids"
@@ -28,7 +24,7 @@ async def root():
 
 
 @app.post("/post_publication",
-          status_code = status.HTTP_201_CREATED,
+          status_code=status.HTTP_201_CREATED,
           responses={
               400: {"description": "Wrong format."},
               201: {
@@ -40,8 +36,8 @@ async def root():
                   }
               }
           })
-async def post_publication(posted_publication: utils.publicationModel, response: Response):
-    publication = utils.buildPublication(dict(posted_publication))
+async def post_publication(posted_publication: utils.PublicationModel, response: Response):
+    publication = utils.build_publication(dict(posted_publication))
     publication_id = mongodb_interface.insert_one_publication(publication)
     publication["_id"] = publication_id
     return {
@@ -66,20 +62,21 @@ async def post_publication(posted_publication: utils.publicationModel, response:
                   }
               }
           })
-async def post_a_comment(publication_id: str, posted_comment: utils.commentModel, response: Response):
+async def post_a_comment(publication_id: str, posted_comment: utils.CommentModel, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "Invalid ID"
         }
     # Build comment
-    comment = utils.buildComment(dict(posted_comment))
+    comment = utils.build_comment(dict(posted_comment))
     comment_id = mongodb_interface.insert_one_comment(publication_id, comment)
     comment["_id"] = str(comment_id)
     return {
         "message": "Comment successfully posted !",
         "comment": comment
     }
+
 
 @app.post("/post_reply/{publication_id}/{comment_id}",
           status_code=status.HTTP_201_CREATED,
@@ -97,33 +94,35 @@ async def post_a_comment(publication_id: str, posted_comment: utils.commentModel
                   }
               }
           })
-async def post_a_reply(publication_id: str, comment_id: str, posted_reply: utils.replyModel, response: Response):
+async def post_a_reply(publication_id: str, comment_id: str, posted_reply: utils.ReplyModel, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "Invalid ID"
         }
     # Build reply
-    reply = utils.buildReply(dict(posted_reply))
-    reply_id = mongodb_interface.insert_one_reply(publication_id,comment_id, reply)
+    reply = utils.build_reply(dict(posted_reply))
+    reply_id = mongodb_interface.insert_one_reply(publication_id, comment_id, reply)
     reply["_id"] = str(reply_id)
     return {
         "message": "Comment successfully posted !",
         "comment": reply
     }
 
-@app.get("/insert_samples") # DEBUG
-async def DEBUG():
+
+@app.get("/insert_samples")  # DEBUG
+async def debug():
     for publication in utils.samples:
         mongodb_interface.insert_one_publication(publication)
     return {"message": "samples posted"}
 
 
 @app.get("/get_publication_by_id/{publication_id}",
-         status_code = status.HTTP_200_OK,
+         status_code=status.HTTP_200_OK,
          responses={
-             400:{"description": "The ID provided is not a valid ObjectId, it must be 12-byte input or a 24-character hex string."},
-             404:{"description": "The publication does not exit."},
+             400: {
+                 "description": "The ID provided is not a valid ObjectId, it must be 12-byte input or a 24-character hex string."},
+             404: {"description": "The publication does not exit."},
              200: {
                  "description": "Publication requested by ID.",
                  "content": {
@@ -141,10 +140,10 @@ async def get_publication(publication_id: str, response: Response):
         }
 
     publication = mongodb_interface.get_one_publication(publication_id)
-    if publication != None:
-        formated_publication = utils.stringifyIDs(publication)
+    if publication is not None:
+        formatted_publication = utils.stringify_ids(publication)
         return {
-            "publication": formated_publication
+            "publication": formatted_publication
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -153,9 +152,8 @@ async def get_publication(publication_id: str, response: Response):
         }
 
 
-
 @app.get("/get_publications_of_user/{user_name}",
-         status_code = status.HTTP_200_OK,
+         status_code=status.HTTP_200_OK,
          responses={
              404: {"description": "The user does not exit."},
              200: {
@@ -173,17 +171,17 @@ async def get_publication(publication_id: str, response: Response):
                          "example": {"message": "user have no publications"}
                      }
                  }
-            }
+             }
          })
 async def get_user_publications(user_name: str, response: Response):
     publications = mongodb_interface.get_user_publications(user_name)
-    if publications != []:
-        formated_publications = []
+    if publications:
+        formatted_publications = []
         for publication in publications:
-            formated_publications.append(utils.stringifyIDs(publication))
+            formatted_publications.append(utils.stringify_ids(publication))
         return {
             "message": "publications returned",
-            "publications": formated_publications
+            "publications": formatted_publications
         }
     else:
         response.status_code = status.HTTP_204_NO_CONTENT
@@ -193,9 +191,10 @@ async def get_user_publications(user_name: str, response: Response):
 
 
 @app.delete("/delete_publication_by_id/{publication_id}",
-            status_code = status.HTTP_204_NO_CONTENT,
+            status_code=status.HTTP_204_NO_CONTENT,
             responses={
-                400: {"description": "The ID provided is not a valid ObjectId, it must be 12-byte input or a 24-character hex string."},
+                400: {
+                    "description": "The ID provided is not a valid ObjectId, it must be 12-byte input or a 24-character hex string."},
                 204: {
                     "description": "The publication got removed.",
                     "content": {
@@ -206,7 +205,7 @@ async def get_user_publications(user_name: str, response: Response):
                     }
                 }
             })
-async def delete_publication(publication_id: str ,response: Response):
+async def delete_publication(publication_id: str, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
@@ -214,11 +213,11 @@ async def delete_publication(publication_id: str ,response: Response):
         }
 
     removed_publication = mongodb_interface.delete_one_publication(publication_id)
-    if removed_publication != None:
-        formated_publication = utils.stringifyIDs(removed_publication)
+    if removed_publication is not None:
+        formatted_publication = utils.stringify_ids(removed_publication)
         return {
             "message": f"publication {publication_id} deleted",
-            "removed publication": formated_publication
+            "removed publication": formatted_publication
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -247,11 +246,11 @@ async def delete_publications_of_user(user_name: str):
     }
 
 
-#Doit recup le com
 @app.delete("/delete_comment_by_id/{publication_id}/{comment_id}",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
-                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+                400: {
+                    "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                 404: {"description": "The publication or comment does not exit."},
                 204: {
                     "description": "Comment got removed.",
@@ -263,14 +262,14 @@ async def delete_publications_of_user(user_name: str):
                 }
             })
 async def delete_comment(publication_id: str, comment_id: str, response: Response):
-    if not ( 
-        ObjectId.is_valid(publication_id)
-        and ObjectId.is_valid(comment_id) ):
+    if not (
+            ObjectId.is_valid(publication_id)
+            and ObjectId.is_valid(comment_id)):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
         }
-    is_success = mongodb_interface.delete_one_comment(comment_id,publication_id)
+    is_success = mongodb_interface.delete_one_comment(comment_id, publication_id)
     if is_success:
         return {
             "message": "Comment successfully removed."
@@ -282,11 +281,11 @@ async def delete_comment(publication_id: str, comment_id: str, response: Respons
         }
 
 
-#Doit récup la reply / possiblement delete les replies repondants a cette meme reply
 @app.delete("/delete_reply_by_id/{publication_id}/{comment_id}/{reply_id}",
             status_code=status.HTTP_204_NO_CONTENT,
             responses={
-                400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+                400: {
+                    "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                 404: {"description": "The publication or reply does not exit."},
                 204: {
                     "description": "Reply got removed.",
@@ -320,7 +319,8 @@ async def delete_reply(publication_id: str, comment_id: str, reply_id: str, resp
 @app.patch("/upvote_publication/{publication_id}",
            status_code=status.HTTP_200_OK,
            responses={
-               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               400: {
+                   "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication does not exit."},
                200: {
                    "description": "Publication got upvoted successfully.",
@@ -339,19 +339,21 @@ async def upvote_a_publication(publication_id: str, response: Response):
         }
     is_success = mongodb_interface.upvote_one_publication(publication_id)
     if is_success:
-        return{
+        return {
             "message": "Publication upvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
-        return{
+        return {
             "message": "Publication does not exist"
         }
 
+
 @app.patch("/upvote_comment/{publication_id}/{comment_id}",
-            status_code = status.HTTP_200_OK,
+           status_code=status.HTTP_200_OK,
            responses={
-               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               400: {
+                   "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The  or comment does not exit."},
                200: {
                    "description": "Comment got upvoted successfully.",
@@ -372,19 +374,21 @@ async def upvote_a_comment(publication_id: str, comment_id: str, response: Respo
         }
     is_success = mongodb_interface.upvote_one_comment(publication_id, comment_id)
     if is_success:
-        return{
+        return {
             "message": "Comment upvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
-        return{
+        return {
             "message": "Publication or comment does not exist"
         }
+
 
 @app.patch("/upvote_reply/{publication_id}/{comment_id}/{reply_id}",
            status_code=status.HTTP_200_OK,
            responses={
-               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               400: {
+                   "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication, comment or reply does not exit."},
                200: {
                    "description": "Reply got upvoted successfully.",
@@ -403,12 +407,12 @@ async def upvote_a_reply(publication_id: str, comment_id: str, reply_id: str, re
         }
     is_success = mongodb_interface.upvote_one_reply(publication_id, comment_id, reply_id)
     if is_success:
-        return{
+        return {
             "message": "Reply upvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
-        return{
+        return {
             "message": "Publication, comment or reply does not exist"
         }
 
@@ -416,7 +420,8 @@ async def upvote_a_reply(publication_id: str, comment_id: str, reply_id: str, re
 @app.patch("/downvote_publication/{publication_id}",
            status_code=status.HTTP_200_OK,
            responses={
-               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               400: {
+                   "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication does not exit."},
                200: {
                    "description": "Publication got downvoted successfully.",
@@ -435,12 +440,12 @@ def downvote_a_publication(publication_id: str, response: Response):
         }
     is_success = mongodb_interface.downvote_one_publication(publication_id)
     if is_success:
-        return{
+        return {
             "message": "Publication downvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
-        return{
+        return {
             "message": "Publication does not exist"
         }
 
@@ -448,7 +453,8 @@ def downvote_a_publication(publication_id: str, response: Response):
 @app.patch("/downvote_comment/{publication_id}/{comment_id}",
            status_code=status.HTTP_200_OK,
            responses={
-               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               400: {
+                   "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The  or comment does not exit."},
                200: {
                    "description": "Comment got downvoted successfully.",
@@ -469,20 +475,22 @@ async def downvote_a_comment(publication_id: str, comment_id: str, response: Res
         }
     is_success = mongodb_interface.downvote_one_comment(publication_id, comment_id)
     if is_success:
-        return{
+        return {
             "message": "Comment downvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
-        return{
+        return {
             "message": "Publication or comment does not exist"
         }
+
 
 # FIXME
 @app.patch("/downvote_reply/{publication_id}/{comment_id}/{reply_id}",
            status_code=status.HTTP_200_OK,
            responses={
-               400: {"description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
+               400: {
+                   "description": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."},
                404: {"description": "The publication, comment or reply does not exit."},
                200: {
                    "description": "Reply got downvoted successfully.",
@@ -502,12 +510,12 @@ async def downvote_a_reply(publication_id: str, comment_id: str, reply_id: str, 
     is_success = mongodb_interface.downvote_one_reply(
         publication_id, comment_id, reply_id)
     if is_success:
-        return{
+        return {
             "message": "Reply downvoted !"
         }
     else:
         response.status_code = status.HTTP_404_NOT_FOUND
-        return{
+        return {
             "message": "Publication, comment or reply does not exist"
         }
 
@@ -522,11 +530,11 @@ async def get_recent_publications(hours_time_delta: int, response: Response):
     since_date = datetime.datetime.now() - datetime.timedelta(hours=hours_time_delta)
     db_res = mongodb_interface.get_publications_since(since_date)
     response.status_code = status.HTTP_200_OK
-    formated_pubs = []
+    formatted_pubs = []
     for pub in db_res:
-        formated_pubs.append(utils.stringifyIDs(pub))
+        formatted_pubs.append(utils.stringify_ids(pub))
     return {
-        "new_best": formated_pubs
+        "new_best": formatted_pubs
     }
 
 
@@ -564,13 +572,13 @@ async def get_many_publications_ids_and_likes(id_list_str: str, response: Respon
 @app.get("/new_best_publications")  # TODO DOC TODO TESTS
 async def get_new_best_publications_list(response: Response):
     try:
-        get = requests.get(TRENDTRACKER_URL + ':'+ TRENDTRACKER_PORT + TRENDTRACKER_BL_ENDPOINT)
+        get = requests.get(TRENDTRACKER_URL + ':' + TRENDTRACKER_PORT + TRENDTRACKER_BL_ENDPOINT)
         if get.status_code == 200:
             response.status_code = status.HTTP_200_OK
             result = []
             for _id in json.loads(get.text)["new_best_ids"]:
                 pub = mongodb_interface.get_one_publication(_id)
-                result.append(utils.stringifyIDs(pub))
+                result.append(utils.stringify_ids(pub))
             return {
                 "best_new": result
             }
@@ -587,4 +595,3 @@ async def get_new_best_publications_list(response: Response):
         return {
             "message": "Error while requesting new best publications."
         }
-        

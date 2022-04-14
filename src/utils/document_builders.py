@@ -1,8 +1,9 @@
 from datetime import datetime
 from bson import ObjectId
 
-def buildComment(comment: dict) -> dict:
-    hashtags = getHashtags(comment['content'])
+
+def build_comment(comment: dict) -> dict:
+    hashtags = get_hashtags(comment['content'])
     comment["hashtags"] = hashtags
     comment["publication_date"] = str(datetime.now())
     comment["_id"] = ObjectId()
@@ -11,16 +12,17 @@ def buildComment(comment: dict) -> dict:
     return comment
 
 
-def buildReply(reply: dict) -> dict:
-    hashtags = getHashtags(reply['content'])
+def build_reply(reply: dict) -> dict:
+    hashtags = get_hashtags(reply['content'])
     reply["hashtags"] = hashtags
     reply["publication_date"] = str(datetime.now())
     reply["_id"] = ObjectId()
     reply["likes_count"] = 0
     return reply
 
-def buildPublication(publication: dict) -> dict:
-    hashtags = getHashtags(publication["description"])
+
+def build_publication(publication: dict) -> dict:
+    hashtags = get_hashtags(publication["description"])
     publication["hashtags"] = hashtags
     publication["publication_date"] = str(datetime.now())
     publication["_id"] = ObjectId()
@@ -29,7 +31,7 @@ def buildPublication(publication: dict) -> dict:
     return publication
 
 
-def stringifyIDs(publication: dict) -> dict:
+def stringify_ids(publication: dict) -> dict:
     """Stringify every ObjectId() of a mongoDB's publication"""
     publication['_id'] = str(publication['_id'])
     for x in range(len(publication["comments"])):
@@ -41,7 +43,7 @@ def stringifyIDs(publication: dict) -> dict:
     return publication
 
 
-def getHashtags(string: str) -> list:
+def get_hashtags(string: str) -> list:
     str_list = string.split(' ')
     hashtags = [wrd.strip('#')
                 for wrd in str_list if wrd.lower().startswith('#')]

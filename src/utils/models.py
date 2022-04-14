@@ -3,7 +3,7 @@ from fastapi import Query
 
 
 # _id, timestamps, hashtags and likes count have to be built by the service afterward
-class publicationModel(BaseModel):
+class PublicationModel(BaseModel):
     publication_name: str
     user_name: str
     description: str
@@ -13,12 +13,12 @@ class publicationModel(BaseModel):
 
 
 # _id, timestamps and likes count have to be built by the service afterward
-class commentModel(BaseModel):
+class CommentModel(BaseModel):
     user: str
     content: str
 
 
-class replyModel(BaseModel):
+class ReplyModel(BaseModel):
     user: str
     target_user: str
     content: str
