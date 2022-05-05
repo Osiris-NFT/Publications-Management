@@ -25,14 +25,14 @@ publication_example = {
         {
             "_id": "5bf142459b72e12b2b1b2ce",
             "user": "bar",
-            "plublication_date": "2000-12-31 23: 59: 59.999469",
+            "publication_date": "2000-12-31 23: 59: 59.999469",
             "content": "comment example",
             "likes_count": 10,
             "replies": [
                 {
                     "_id": "5bf142459b72e12b2b1b2c3",
                     "user": "foo",
-                    "plublication_date": "2001-11-30 20: 10: 42.442765",
+                    "publication_date": "2001-11-30 20: 10: 42.442765",
                     "target_user": "bar",
                     "content": "reply example",
                     "likes_count": 2
@@ -76,14 +76,14 @@ samples = [
             {
                 "_id": ObjectId(),
                 "user": "mamamiaDu93",
-                "plublication_date": datetime.now(),
+                "publication_date": datetime.now(),
                 "content": "to cute for me i'm dying xO",
                 "likes_count": 10,
                 "replies": [
                     {
                         "_id": ObjectId(),
                         "user": "notsusatall",
-                        "plublication_date": datetime.now(),
+                        "publication_date": datetime.now(),
                         "target_user": "mamamiaDu93",
                         "content": "Right bro :3",
                         "likes_count": 2
@@ -93,7 +93,7 @@ samples = [
             {
                 "_id": ObjectId(),
                 "user": "LostOnTweeter",
-                "plublication_date": datetime.now(),
+                "publication_date": datetime.now(),
                 "content": "ratio.",
                 "likes_count": 327,
                 "replies": []
@@ -115,14 +115,14 @@ samples = [
             {
                 "_id": ObjectId(),
                 "user": "jokesterdu13",
-                "plublication_date": datetime.now(),
+                "publication_date": datetime.now(),
                 "content": "where the cat lol",
                 "likes_count": 10,
                 "replies": [
                     {
                         "_id": ObjectId(),
                         "user": "Ayaya",
-                        "plublication_date": datetime.now(),
+                        "publication_date": datetime.now(),
                         "target_user": "jokesterdu13",
                         "content": "ahah",
                         "likes_count": 5
@@ -130,7 +130,7 @@ samples = [
                     {
                         "_id": ObjectId(),
                         "user": "ImBored",
-                        "plublication_date": datetime.now(),
+                        "publication_date": datetime.now(),
                         "target_user": "Ayaya",
                         "content": "Not impressed, maybe you meant 'haha' ?",
                         "likes_count": 0
@@ -154,14 +154,14 @@ samples = [
             {
                 "_id": ObjectId(),
                 "user": "NotMyBusiness",
-                "plublication_date": datetime.now(),
+                "publication_date": datetime.now(),
                 "content": "Noooooooooo",
                 "likes_count": 10,
                 "replies": [
                     {
                         "_id": ObjectId(),
                         "user": "Joykiller",
-                        "plublication_date": datetime.now(),
+                        "publication_date": datetime.now(),
                         "target_user": "NotMyBusiness",
                         "content": "RUNNN",
                         "likes_count": 4
@@ -171,14 +171,14 @@ samples = [
             {
                 "_id": ObjectId(),
                 "user": "MaevaDu93",
-                "plublication_date": datetime.now(),
+                "publication_date": datetime.now(),
                 "content": "Le J c'est le S.",
                 "likes_count": 27,
                 "replies": [
                     {
                         "_id": ObjectId(),
                         "user": "ChocolatineMaster",
-                        "plublication_date": datetime.now(),
+                        "publication_date": datetime.now(),
                         "target_user": "MaevaDu93",
                         "content": "jajaja",
                         "likes_count": 5
@@ -186,7 +186,7 @@ samples = [
                     {
                         "_id": ObjectId(),
                         "user": "Ayaya",
-                        "plublication_date": datetime.now(),
+                        "publication_date": datetime.now(),
                         "target_user": "MaevaDu93",
                         "content": "C marseille bb",
                         "likes_count": 1
