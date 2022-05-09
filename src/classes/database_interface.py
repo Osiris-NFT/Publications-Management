@@ -11,29 +11,29 @@ class DBInterface:
 
     def __init__(self):
         if os.environ["DEPLOYMENT_MODE"] == "PROD":
-            database_url = os.environ["DATABASE_URL"]    #get every values of env
+            database_url = os.environ["DATABASE_URL"]  # get every value of env
             db_name = os.environ["DB_NAME"]
             collection_name = os.environ["COLLECTION_NAME"]
-            
-            self.client = pymongo.MongoClient(database_url) # connection to MongoDB
+
+            self.client = pymongo.MongoClient(database_url)  # connection to MongoDB
             self.database = self.client[db_name]  # select MongoDB's database
-            self.collection = self.database[collection_name] # select database's Collection
-            
+            self.collection = self.database[collection_name]  # select database's Collection
+
             print("INFO: Deployment in production mode.")
-            
+
         elif os.environ["DEPLOYMENT_MODE"] == "DEBUG":
-            self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/") # connection to MongoDB
+            self.client = pymongo.MongoClient("mongodb://127.0.0.1:27017/")  # connection to MongoDB
             self.database = self.client["publications-service"]  # select MongoDB's database
-            self.collection = self.database["publications"] # select database's Collection
-            
+            self.collection = self.database["publications"]  # select database's Collection
+
             print("INFO: Deployment in debug mode.")
-            
+
         else:
             print("ERROR: Bad deployment mode.")
             exit(1)
 
         self.fs = gridfs.GridFS(self.database)
-        
+
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
         print("\nPublication:")
@@ -41,15 +41,12 @@ class DBInterface:
         print("inserted in database")
         return str(result.inserted_id)
 
-
     def add_one_comment(self, comment: dict, publication_id: str) -> None:
-        #self.collection.find_one_and_update()
+        # self.collection.find_one_and_update()
         pass
-
 
     def add_one_reply(self, reply: dict, publication_id: str, comment_id: str) -> None:
         pass
-
 
     def delete_one_publication(self, publication_id: str) -> dict:
         removed_publication = self.collection.find_one_and_delete({'_id': ObjectId(publication_id)})
@@ -58,17 +55,15 @@ class DBInterface:
         pprint("removed from the database")
         return removed_publication
 
-
     def delete_user_publications(self, user_name: str) -> pymongo.results.DeleteResult:
         log = self.collection.delete_many({'user_name': user_name})
         print(f"\n{log.deleted_count} publications of {user_name} removed")
         return log
 
-
     def get_one_publication(self, publication_id: str) -> dict or None:
         publication = self.collection.find_one({"_id": ObjectId(publication_id)})
         if publication != None:
-            print("Publication "+str(publication["_id"])+" returned.")
+            print("Publication " + str(publication["_id"]) + " returned.")
         return publication
 
     def get_user_publications(self, user_name: str) -> list[dict] or list:
@@ -80,16 +75,15 @@ class DBInterface:
         pprint(f"Publications:\n{publications}\nreturned")
         return publications
 
-
     def delete_one_comment(self, comment_id: str, publication_id: str) -> bool:
         updated_publication = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
-                "comments._id":ObjectId(comment_id)
+                "comments._id": ObjectId(comment_id)
             },
             {
-                "$pull":{
-                    "comments":{
+                "$pull": {
+                    "comments": {
                         "_id": ObjectId(comment_id)
                     }
                 }
@@ -102,8 +96,7 @@ class DBInterface:
             pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
             return True
 
-
-    def delete_one_reply(self, reply_id: str,comment_id: str, publication_id: str) -> bool:
+    def delete_one_reply(self, reply_id: str, comment_id: str, publication_id: str) -> bool:
         updated_publication = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
@@ -125,12 +118,11 @@ class DBInterface:
             pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
             return True
 
-
     def upvote_one_publication(self, publication_id) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
             {
-                "$inc":{
+                "$inc": {
                     "likes_count": 1
                 }
             }
@@ -141,13 +133,12 @@ class DBInterface:
             print(f'Publication \'{publication_id}\' got 1 like.')
             return True
 
-
     def upvote_one_comment(self, publication_id: str, comment_id: str):
         updated_pub = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
                 "comments._id": ObjectId(comment_id)
-             },
+            },
             {
                 "$inc": {
                     "comments.$.likes_count": 1
@@ -161,7 +152,7 @@ class DBInterface:
             return True
 
     # FIXME
-    def upvote_one_reply(self,publication_id: str, comment_id: str, reply_id: str):
+    def upvote_one_reply(self, publication_id: str, comment_id: str, reply_id: str):
         updated_pub = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
@@ -181,24 +172,22 @@ class DBInterface:
         else:
             print(f'Reply \'{reply_id}\' got a like.')
             return True
-        
-        
+
     def insert_one_comment(self, publication_id: str, comment: dict) -> str:
         result = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id)
-                },
-                {
-                    "$addToSet":{
-                        "comments": comment
-                    }
-                },
-                return_document=ReturnDocument.AFTER
+            },
+            {
+                "$addToSet": {
+                    "comments": comment
+                }
+            },
+            return_document=ReturnDocument.AFTER
         )
         result_id = result["comments"][-1]["_id"]
         print(f"Comment with id '{result_id}' by '{result['comments'][-1]['user']}' inserted in DB")
         return result_id
-
 
     def insert_one_reply(self, publication_id: str, comment_id: str, reply: dict) -> str:
         result = self.collection.find_one_and_update(
@@ -218,7 +207,6 @@ class DBInterface:
             f"Reply with id '{result_id}' by '{result['replies'][-1]['user']}' inserted in DB")
         return result_id
 
-
     def downvote_one_publication(self, publication_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {"_id": ObjectId(publication_id)},
@@ -234,28 +222,26 @@ class DBInterface:
             print(f'Publication \'{publication_id}\' got -1 like.')
             return True
 
-
     def downvote_one_comment(self, publication_id: str, comment_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {
-                    "_id": ObjectId(publication_id),
-                    "comments._id": ObjectId(comment_id)
-                },
-                {
-                    "$inc": {
-                        "comments.$.likes_count": -1
-                    }
+                "_id": ObjectId(publication_id),
+                "comments._id": ObjectId(comment_id)
+            },
+            {
+                "$inc": {
+                    "comments.$.likes_count": -1
                 }
-            )
+            }
+        )
         if updated_pub == None:
-                return False
+            return False
         else:
             print(f'Comment \'{comment_id}\' got -1 like.')
             return True
 
-
     # FIXME
-    def downvote_one_reply(self,publication_id: str, comment_id: str, reply_id: str) -> bool:
+    def downvote_one_reply(self, publication_id: str, comment_id: str, reply_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
@@ -280,7 +266,6 @@ class DBInterface:
     def fav_publication(self) -> bool:
         pass
 
-
     def get_publications_since(self, time: datetime) -> list:
         result = self.collection.find({
             "publication_date": {'$gte': time}
@@ -288,8 +273,8 @@ class DBInterface:
         pubs = []
         for doc in result:
             pubs.append(doc)
-        print(str(len(pubs))+" publications created since "+str(time)+" returned")
+        print(str(len(pubs)) + " publications created since " + str(time) + " returned")
         return pubs
 
-    def upload_image(self, data: bytes) -> str:
-        return self.fs.put(data)
+    def upload_image(self, data: bytes) -> ObjectId:
+        return self.fs.put(data, content_type="image/jpeg")
