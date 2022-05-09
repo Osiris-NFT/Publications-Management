@@ -7,11 +7,11 @@ import random
 import requests
 import os
 
-from classes.db_interface import db_interface
+from classes.database_interface import DBInterface
 import utils
 
 app = FastAPI()
-mongodb_interface = db_interface()
+mongodb_interface = DBInterface()
 
 TRENDTRACKER_URL = os.environ["TRENDTRACKER_URL"]
 TRENDTRACKER_PORT = os.environ["TRENDTRACKER_PORT"]

@@ -4,9 +4,11 @@ import os
 from pprint import pprint
 from bson import ObjectId
 import datetime
-class db_interface:
-    
-    
+import gridfs
+
+
+class DBInterface:
+
     def __init__(self):
         if os.environ["DEPLOYMENT_MODE"] == "PROD":
             database_url = os.environ["DATABASE_URL"]    #get every values of env
@@ -29,7 +31,8 @@ class db_interface:
         else:
             print("ERROR: Bad deployment mode.")
             exit(1)
-        
+
+        self.fs = gridfs.GridFS(self.database)
         
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
@@ -287,3 +290,6 @@ class db_interface:
             pubs.append(doc)
         print(str(len(pubs))+" publications created since "+str(time)+" returned")
         return pubs
+
+    def upload_image(self, data: bytes) -> str:
+        return self.fs.put(data)
