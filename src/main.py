@@ -1,11 +1,13 @@
-from fastapi import FastAPI, Response, status, Query
+from fastapi import FastAPI, Response, status
+from fastapi.responses import FileResponse, StreamingResponse
 from bson import ObjectId
 import datetime
 from typing import Optional
 import json
-import random
 import requests
 import os
+from io import BytesIO
+from PIL import Image
 
 from classes.database_interface import DBInterface
 import utils
@@ -117,10 +119,12 @@ async def debug():
     return {"message": "samples posted"}
 
 
+@app.get("/images/{file_id}")  # TODO doc
+async def get_image(file_id: str):
+    img_bytes = mongodb_interface.download_image(ObjectId(file_id)).read()
+    img = Image.open(BytesIO(img_bytes))
+    return StreamingResponse(img, media_type="image/jpeg")
 
-@app.get("/{publication_id}/image")
-async def get_image(publication_id: str, response: Response):
-    pass
 
 @app.get("/get_publication_by_id/{publication_id}",
          status_code=status.HTTP_200_OK,

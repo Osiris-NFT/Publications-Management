@@ -1,3 +1,6 @@
-fastapi
+fastapi~=0.76.0
 uvicorn[standard]
-pymongo
+pymongo~=3.11.0
+pydantic~=1.7.4
+requests~=2.25.1
+Pillow~=8.1.2

@@ -277,4 +277,9 @@ class DBInterface:
         return pubs
 
     def upload_image(self, data: bytes) -> ObjectId:
+        print("New image uploaded.")
         return self.fs.put(data, content_type="image/jpeg")
+
+    def download_image(self, file_id: ObjectId) -> gridfs.GridOut:
+        print(f"Image {str(file_id)} downloaded.")
+        return self.fs.get(file_id)
