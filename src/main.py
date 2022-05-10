@@ -117,6 +117,11 @@ async def debug():
     return {"message": "samples posted"}
 
 
+
+@app.get("/{publication_id}/image")
+async def get_image(publication_id: str, response: Response):
+    pass
+
 @app.get("/get_publication_by_id/{publication_id}",
          status_code=status.HTTP_200_OK,
          responses={
