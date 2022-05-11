@@ -60,7 +60,7 @@ class DBInterface:
 
     def get_one_publication(self, publication_id: str) -> dict or None:
         publication = self.collection.find_one({"_id": ObjectId(publication_id)})
-        if publication != None:
+        if publication is not None:
             print("Publication " + str(publication["_id"]) + " returned.")
         return publication
 
@@ -88,7 +88,7 @@ class DBInterface:
             },
             return_document=ReturnDocument.AFTER
         )
-        if updated_publication == None:
+        if updated_publication is None:
             return False
         else:
             pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
@@ -110,7 +110,7 @@ class DBInterface:
             },
             return_document=ReturnDocument.AFTER
         )
-        if updated_publication == None:
+        if updated_publication is None:
             return False
         else:
             pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
@@ -125,7 +125,7 @@ class DBInterface:
                 }
             }
         )
-        if updated_pub == None:
+        if updated_pub is None:
             return False
         else:
             print(f'Publication \'{publication_id}\' got 1 like.')
@@ -143,7 +143,7 @@ class DBInterface:
                 }
             }
         )
-        if updated_pub == None:
+        if updated_pub is None:
             return False
         else:
             print(f'Comment \'{comment_id}\' got a like.')
@@ -165,7 +165,7 @@ class DBInterface:
             return_document=ReturnDocument.AFTER
         )
         print(updated_pub)
-        if updated_pub == None:
+        if updated_pub is None:
             return False
         else:
             print(f'Reply \'{reply_id}\' got a like.')
@@ -214,7 +214,7 @@ class DBInterface:
                 }
             }
         )
-        if updated_pub == None:
+        if updated_pub is None:
             return False
         else:
             print(f'Publication \'{publication_id}\' got -1 like.')
@@ -254,7 +254,7 @@ class DBInterface:
             return_document=ReturnDocument.AFTER
         )
         print(updated_pub)
-        if updated_pub == None:
+        if updated_pub is None:
             return False
         else:
             print(f'Reply \'{reply_id}\' got -1 like.')

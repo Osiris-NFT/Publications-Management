@@ -1,8 +1,7 @@
-from fastapi import FastAPI, Response, status, File, UploadFile
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi import FastAPI, Response, status, UploadFile
+from fastapi.responses import StreamingResponse
 from bson import ObjectId
 import datetime
-from typing import Optional
 import json
 import requests
 import os
@@ -37,7 +36,7 @@ async def root():
                   }
               }
           })
-async def post_publication(posted_publication: utils.PublicationModel, response: Response):
+async def post_publication(posted_publication: utils.PublicationModel):
     publication = utils.build_publication(dict(posted_publication))
     publication_id = mongodb_interface.insert_one_publication(publication)
     publication["_id"] = publication_id
