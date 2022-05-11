@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI, Response, status, File, UploadFile
 from fastapi.responses import FileResponse, StreamingResponse
 from bson import ObjectId
 import datetime
@@ -7,7 +7,6 @@ import json
 import requests
 import os
 from io import BytesIO
-from PIL import Image
 
 from classes.database_interface import DBInterface
 import utils
@@ -122,8 +121,18 @@ async def debug():
 @app.get("/images/{file_id}")  # TODO doc
 async def get_image(file_id: str):
     img_bytes = mongodb_interface.download_image(ObjectId(file_id)).read()
-    img = Image.open(BytesIO(img_bytes))
+    img = BytesIO(img_bytes)
     return StreamingResponse(img, media_type="image/jpeg")
+
+
+@app.post("/upload")
+async def upload_image(file: UploadFile):
+    allowed_files = {"image/jpeg"}  # "image/png", "image/gif", "image/tiff", "image/bmp", "video/webm"
+    if file.content_type in allowed_files:
+        mongodb_interface.upload_image(file.file.read())
+        return {"filename": file.filename}
+    else:
+        return "Only jpeg file are supported."
 
 
 @app.get("/get_publication_by_id/{publication_id}",
