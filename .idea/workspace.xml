@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="clean code">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="endpoint update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +58,7 @@
       <workItem from="1652101112953" duration="7367000" />
       <workItem from="1652214934820" duration="2534000" />
       <workItem from="1652258621909" duration="6626000" />
-      <workItem from="1652269924423" duration="4526000" />
+      <workItem from="1652269924423" duration="5211000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -136,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652273476974</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="endpoint update">
+      <created>1652275060437</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1652275060437</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,7 +162,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="endpoint update" />
     <MESSAGE value="return up" />
     <MESSAGE value="pycharm init" />
     <MESSAGE value="typo" />
@@ -163,6 +170,7 @@
     <MESSAGE value="download img" />
     <MESSAGE value="fix upload &amp; download" />
     <MESSAGE value="clean code" />
-    <option name="LAST_COMMIT_MESSAGE" value="clean code" />
+    <MESSAGE value="endpoint update" />
+    <option name="LAST_COMMIT_MESSAGE" value="endpoint update" />
   </component>
 </project>

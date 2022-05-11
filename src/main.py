@@ -42,6 +42,7 @@ async def post_publication(posted_publication: utils.PublicationModel):
     publication["_id"] = publication_id
     return {
         "message": "Publication posted !",
+        "publication_id": publication_id,
         "publication": publication
     }
 
