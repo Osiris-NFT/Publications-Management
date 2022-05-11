@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="endpoint update">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="add pub id in post">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +58,7 @@
       <workItem from="1652101112953" duration="7367000" />
       <workItem from="1652214934820" duration="2534000" />
       <workItem from="1652258621909" duration="6626000" />
-      <workItem from="1652269924423" duration="5211000" />
+      <workItem from="1652269924423" duration="7009000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -144,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652275060437</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="add pub id in post">
+      <created>1652276213609</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1652276213609</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,6 +178,7 @@
     <MESSAGE value="fix upload &amp; download" />
     <MESSAGE value="clean code" />
     <MESSAGE value="endpoint update" />
-    <option name="LAST_COMMIT_MESSAGE" value="endpoint update" />
+    <MESSAGE value="add pub id in post" />
+    <option name="LAST_COMMIT_MESSAGE" value="add pub id in post" />
   </component>
 </project>

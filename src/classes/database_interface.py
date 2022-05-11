@@ -70,7 +70,7 @@ class DBInterface:
 
         for publication in cursor:
             publications.append(publication)
-        pprint(f"Publications:\n{publications}\nreturned")
+        print(f"{len(publications)} publications returned for {user_name}")
         return publications
 
     def delete_one_comment(self, comment_id: str, publication_id: str) -> bool:
@@ -91,7 +91,7 @@ class DBInterface:
         if updated_publication is None:
             return False
         else:
-            pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
+            pprint(f"Publication:{publication_id} successfully updated")
             return True
 
     def delete_one_reply(self, reply_id: str, comment_id: str, publication_id: str) -> bool:
@@ -113,7 +113,7 @@ class DBInterface:
         if updated_publication is None:
             return False
         else:
-            pprint(f"Publication:\n{updated_publication}\nsuccessfully updated")
+            pprint(f"Publication:{publication_id} successfully updated")
             return True
 
     def upvote_one_publication(self, publication_id) -> bool:
