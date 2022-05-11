@@ -124,7 +124,7 @@ async def get_image(file_id: str):
     return StreamingResponse(img, media_type="image/jpeg")
 
 
-@app.post("/upload")
+@app.post("/upload/{publication_id}")
 async def upload_image(publication_id: str, file: UploadFile):
     allowed_files = {"image/jpeg"}  # "image/png", "image/gif", "image/tiff", "image/bmp", "video/webm"
     if file.content_type in allowed_files:
