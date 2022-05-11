@@ -126,11 +126,15 @@ async def get_image(file_id: str):
 
 
 @app.post("/upload")
-async def upload_image(file: UploadFile):
+async def upload_image(publication_id: str, file: UploadFile):
     allowed_files = {"image/jpeg"}  # "image/png", "image/gif", "image/tiff", "image/bmp", "video/webm"
     if file.content_type in allowed_files:
-        mongodb_interface.upload_image(file.file.read())
-        return {"filename": file.filename}
+        file_id = str(mongodb_interface.upload_image(file.file.read()))
+        mongodb_interface.set_url(publication_id, file_id)
+        return {
+            "filename": file.filename,
+            "file_id": file_id
+                }
     else:
         return "Only jpeg file are supported."
 

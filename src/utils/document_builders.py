@@ -5,7 +5,7 @@ from bson import ObjectId
 def build_comment(comment: dict) -> dict:
     hashtags = get_hashtags(comment['content'])
     comment["hashtags"] = hashtags
-    comment["publication_date"] = str(datetime.now())
+    comment["publication_date"] = datetime.now()
     comment["_id"] = ObjectId()
     comment["likes_count"] = 0
     comment["replies"] = []
@@ -15,7 +15,7 @@ def build_comment(comment: dict) -> dict:
 def build_reply(reply: dict) -> dict:
     hashtags = get_hashtags(reply['content'])
     reply["hashtags"] = hashtags
-    reply["publication_date"] = str(datetime.now())
+    reply["publication_date"] = datetime.now()
     reply["_id"] = ObjectId()
     reply["likes_count"] = 0
     return reply
@@ -24,8 +24,9 @@ def build_reply(reply: dict) -> dict:
 def build_publication(publication: dict) -> dict:
     hashtags = get_hashtags(publication["description"])
     publication["hashtags"] = hashtags
-    publication["publication_date"] = str(datetime.now())
+    publication["publication_date"] = datetime.now()
     publication["_id"] = ObjectId()
+    publication["media_url"] = None
     publication["likes_count"] = 0
     publication["comments"] = []
     return publication

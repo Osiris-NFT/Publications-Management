@@ -36,9 +36,7 @@ class DBInterface:
 
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
-        print("\nPublication:")
-        pprint(publication)
-        print("inserted in database")
+        print("Publication inserted in database")
         return str(result.inserted_id)
 
     def add_one_comment(self, comment: dict, publication_id: str) -> None:
@@ -234,7 +232,7 @@ class DBInterface:
                 }
             }
         )
-        if updated_pub == None:
+        if updated_pub is None:
             return False
         else:
             print(f'Comment \'{comment_id}\' got -1 like.')
@@ -279,6 +277,16 @@ class DBInterface:
     def upload_image(self, data: bytes) -> ObjectId:
         print("New image uploaded.")
         return self.fs.put(data, content_type="image/jpeg")
+
+    def set_url(self, publication_id: str, file_id: str) -> None:
+        self.collection.find_one_and_update(
+            {
+                "_id": ObjectId(publication_id)
+            },
+            {
+                "$set": {"media_url": f"/api/images/{file_id}"}
+            },
+        )
 
     def download_image(self, file_id: ObjectId) -> gridfs.GridOut:
         print(f"Image {str(file_id)} downloaded.")
