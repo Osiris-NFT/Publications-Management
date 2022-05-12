@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="http://0.0.0.0:8000/upload">
+    
+        <div class="form_row">
+            <label for="myfile">Choose your image:</label>
+            <input type="file" id="myfile" name="uploaded_file">
+        </div>
+        <div class="form_row">
+    
+            <label>Accept:</label>
+            <label class="label-checkbox item-content">
+                <input type="checkbox" name="my-checkbox" value="privacy" required>
+                <div class="item-media">
+                    <i class="icon icon-form-checkbox"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title"><a src="" target="_blank">Privacy Policy</a></div>
+                </div>
+            </label>
+    
+            <label class="label-checkbox item-content">
+                <input type="checkbox" name="my-checkbox" value="terms" required>
+                <div class="item-media">
+                    <i class="icon icon-form-checkbox"></i>
+                </div>
+                <div class="item-inner">
+                    <div class="item-title">Terms of Use</div>
+                </div>
+            </label>
+            <label class="label-checkbox item-content">
+                <input type="submit" name="submit" class="form_submit" id="submit" value="Send" />
+            </label>
+        </div>
+    </form>
+</body>
+</html>

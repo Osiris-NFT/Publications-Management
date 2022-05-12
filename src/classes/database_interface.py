@@ -40,7 +40,6 @@ class DBInterface:
         return str(result.inserted_id)
 
     def add_one_comment(self, comment: dict, publication_id: str) -> None:
-        # self.collection.find_one_and_update()
         pass
 
     def add_one_reply(self, reply: dict, publication_id: str, comment_id: str) -> None:
