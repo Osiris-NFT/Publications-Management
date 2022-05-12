@@ -32,7 +32,7 @@ class DBInterface:
             print("ERROR: Bad deployment mode.")
             exit(1)
 
-        self.fs = gridfs.GridFS(self.database)
+        self.fs = gridfs.GridFS(self.database)  # Set up GridFS for the database
 
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
@@ -91,7 +91,7 @@ class DBInterface:
         if updated_publication is None:
             return False
         else:
-            pprint(f"Publication:{publication_id} successfully updated")
+            pprint(f"Publication {publication_id} successfully updated")
             return True
 
     def delete_one_reply(self, reply_id: str, comment_id: str, publication_id: str) -> bool:
@@ -113,7 +113,7 @@ class DBInterface:
         if updated_publication is None:
             return False
         else:
-            pprint(f"Publication:{publication_id} successfully updated")
+            pprint(f"Publication {publication_id} successfully updated")
             return True
 
     def upvote_one_publication(self, publication_id) -> bool:
