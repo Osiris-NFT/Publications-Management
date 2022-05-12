@@ -36,7 +36,7 @@ class DBInterface:
 
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
-        print("Publication inserted in database")
+        print(f"Publication {result.inserted_id} inserted in database")
         return str(result.inserted_id)
 
     def add_one_comment(self, comment: dict, publication_id: str) -> None:

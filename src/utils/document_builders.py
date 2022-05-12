@@ -26,7 +26,7 @@ def build_publication(publication: dict) -> dict:
     publication["hashtags"] = hashtags
     publication["publication_date"] = datetime.now()
     publication["_id"] = ObjectId()
-    publication["media_url"] = None
+    publication["media_url"] = ""
     publication["likes_count"] = 0
     publication["comments"] = []
     return publication
