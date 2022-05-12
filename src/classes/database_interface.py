@@ -237,7 +237,6 @@ class DBInterface:
             print(f'Comment \'{comment_id}\' got -1 like.')
             return True
 
-    # FIXME
     def downvote_one_reply(self, publication_id: str, comment_id: str, reply_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
             {
