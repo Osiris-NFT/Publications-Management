@@ -187,6 +187,8 @@ class DBInterface:
         return result_id
 
     def insert_one_reply(self, publication_id: str, comment_id: str, reply: dict) -> str:
+        new_id = ObjectId()
+        reply["_id"] = new_id
         result = self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
@@ -199,10 +201,10 @@ class DBInterface:
             },
             return_document=ReturnDocument.AFTER
         )
-        result_id = result["replies"][-1]["_id"]
+        #result_id = result["replies"][-1]["_id"]
         print(
-            f"Reply with id '{result_id}' by '{result['replies'][-1]['user']}' inserted in DB")
-        return result_id
+            f"Reply with id '{new_id}' by '{reply['user']}' inserted in DB")
+        return str(new_id)
 
     def downvote_one_publication(self, publication_id: str) -> bool:
         updated_pub = self.collection.find_one_and_update(
