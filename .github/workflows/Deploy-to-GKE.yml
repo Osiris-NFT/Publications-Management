@@ -71,3 +71,10 @@ jobs:
         kubectl apply -f https://raw.githubusercontent.com/Yoann-Renard/Osiris-NFT_Deployment/main/Publications-management/deployment.yaml
         kubectl rollout status deployment/$DEPLOYMENT_NAME
         kubectl get services -o wide
+
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v2
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        repository: Yoann-Renard/Osiris-NFT_Deployment
+        event-type: trigger-api-tests

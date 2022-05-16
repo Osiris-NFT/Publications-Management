@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="fix reply">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_like_comment.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_like_publication.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_post_comment.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_post_publication.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_root.py" beforeDir="false" />
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="clean">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/Deploy-to-GKE.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/Deploy-to-GKE.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +37,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/fox/Documents/github-projects/Osiris-NFT/Osiris-NFT_Publications-Management"
+    "last_opened_file_path": "/home/fox/Documents/github-projects/Osiris-NFT/Osiris-NFT_KrakenD"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -68,7 +61,7 @@
       <workItem from="1652359076733" duration="4219000" />
       <workItem from="1652436203273" duration="1283000" />
       <workItem from="1652440993654" duration="5029000" />
-      <workItem from="1652710037612" duration="1014000" />
+      <workItem from="1652710037612" duration="1399000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -196,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652441835618</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="clean">
+      <created>1652711129491</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1652711129491</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +227,7 @@
     <MESSAGE value="log up" />
     <MESSAGE value="fix" />
     <MESSAGE value="fix reply" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix reply" />
+    <MESSAGE value="clean" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean" />
   </component>
 </project>
