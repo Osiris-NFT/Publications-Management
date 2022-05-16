@@ -104,7 +104,7 @@ async def post_a_reply(publication_id: str, comment_id: str, posted_reply: utils
     # Build reply
     reply = utils.build_reply(dict(posted_reply))
     reply_id = mongodb_interface.insert_one_reply(publication_id, comment_id, reply)
-    reply["_id"] = str(reply_id)
+    reply["_id"] = reply_id
     return {
         "message": "Comment successfully posted !",
         "comment": reply

@@ -39,12 +39,6 @@ class DBInterface:
         print(f"Publication {result.inserted_id} inserted in database")
         return str(result.inserted_id)
 
-    def add_one_comment(self, comment: dict, publication_id: str) -> None:
-        pass
-
-    def add_one_reply(self, reply: dict, publication_id: str, comment_id: str) -> None:
-        pass
-
     def delete_one_publication(self, publication_id: str) -> dict:
         removed_publication = self.collection.find_one_and_delete({'_id': ObjectId(publication_id)})
         pprint("\nPublication:")
