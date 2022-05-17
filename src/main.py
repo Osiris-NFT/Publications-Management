@@ -446,7 +446,7 @@ async def upvote_a_reply(publication_id: str, comment_id: str, reply_id: str, re
         }
 
 
-@app.patch("/downvote_publication/{publication_id}",
+@app.patch("/downvote_publication/{publication_id}/{user}",
            status_code=status.HTTP_200_OK,
            responses={
                400: {
@@ -461,7 +461,7 @@ async def upvote_a_reply(publication_id: str, comment_id: str, reply_id: str, re
                    }
                }
            })
-def downvote_a_publication(publication_id: str, response: Response):
+def downvote_a_publication(publication_id: str, user: str, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
@@ -469,6 +469,7 @@ def downvote_a_publication(publication_id: str, response: Response):
         }
     is_success = mongodb_interface.downvote_one_publication(publication_id)
     if is_success:
+        mongodb_interface.del_like(publication_id, user)
         return {
             "message": "Publication downvoted !"
         }

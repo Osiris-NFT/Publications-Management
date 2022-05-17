@@ -45,9 +45,8 @@ class DBInterface:
 
     def delete_one_publication(self, publication_id: str) -> dict:
         removed_publication = self.collection.find_one_and_delete({'_id': ObjectId(publication_id)})
-        pprint("\nPublication:")
-        pprint(removed_publication)
-        pprint("removed from the database")
+        self.del_like_user_list(publication_id)
+        pprint(f"Publication: {publication_id} removed from the database")
         return removed_publication
 
     def delete_user_publications(self, user_name: str) -> pymongo.results.DeleteResult:
@@ -297,6 +296,23 @@ class DBInterface:
                 "$addToSet": {
                     "user_list": user
                 }
+            }
+        )
+
+    def del_like(self, publication_id: str, user: str) -> None:
+        self.database["pub_like_map"].update_one(
+            {"_id": ObjectId(publication_id)},
+            {
+                "$pull": {
+                    "user_list": user
+                }
+            }
+        )
+
+    def del_like_user_list(self, publication_id) -> None:
+        self.database["pub_like_map"].find_one_and_delete(
+            {
+                "_id": ObjectId(publication_id)
             }
         )
 
