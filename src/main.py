@@ -338,7 +338,7 @@ async def delete_reply(publication_id: str, comment_id: str, reply_id: str, resp
         }
 
 
-@app.patch("/upvote_publication/{publication_id}",
+@app.patch("/upvote_publication/{publication_id}/{user}",
            status_code=status.HTTP_200_OK,
            responses={
                400: {
@@ -353,14 +353,16 @@ async def delete_reply(publication_id: str, comment_id: str, reply_id: str, resp
                    }
                }
            })
-async def upvote_a_publication(publication_id: str, response: Response):
+async def upvote_a_publication(publication_id: str, user: str, response: Response):
     if not ObjectId.is_valid(publication_id):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {
-            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character hex string."
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character "
+                       "hex string. "
         }
     is_success = mongodb_interface.upvote_one_publication(publication_id)
     if is_success:
+        mongodb_interface.store_like(publication_id, user)
         return {
             "message": "Publication upvoted !"
         }
@@ -673,3 +675,18 @@ async def get_new_best_publications_list(response: Response):
         return {
             "message": "Error while requesting new best publications."
         }
+
+
+@app.get("/is/{publication_id}/liked_by/{user}")
+async def is_publication_liked(publication_id: str, user: str, response: Response):
+    if not (ObjectId.is_valid(publication_id)):
+        response.status_code = status.HTTP_400_BAD_REQUEST
+        return {
+            "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character "
+                       "hex string. "
+        }
+    is_liked = mongodb_interface.is_liked(publication_id, user)
+    response.status_code = 200
+    return {
+        "is_liked": is_liked
+    }

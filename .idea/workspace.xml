@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="clean">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/Deploy-to-GKE.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/Deploy-to-GKE.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +39,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/fox/Documents/github-projects/Osiris-NFT/Osiris-NFT_KrakenD"
+    "last_opened_file_path": "D:/GitHub projects/Osiris-NFT_Deployment",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -62,6 +65,7 @@
       <workItem from="1652436203273" duration="1283000" />
       <workItem from="1652440993654" duration="5029000" />
       <workItem from="1652710037612" duration="1399000" />
+      <workItem from="1652793507351" duration="2426000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>

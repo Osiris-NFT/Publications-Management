@@ -37,6 +37,10 @@ class DBInterface:
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
         print(f"Publication {result.inserted_id} inserted in database")
+        self.database["pub_like_map"].insert_one({
+            "_id": result.inserted_id,
+            "user_list": []
+        })
         return str(result.inserted_id)
 
     def delete_one_publication(self, publication_id: str) -> dict:
@@ -285,3 +289,26 @@ class DBInterface:
     def download_image(self, file_id: ObjectId) -> gridfs.GridOut:
         print(f"Image {str(file_id)} downloaded.")
         return self.fs.get(file_id)
+
+    def store_like(self, publication_id: str, user: str) -> None:
+        self.database["pub_like_map"].update_one(
+            {"_id": ObjectId(publication_id)},
+            {
+                "$addToSet": {
+                    "user_list": user
+                }
+            }
+        )
+
+    def is_liked(self, publication_id: str, user: str) -> bool:
+        result = self.database["pub_like_map"].find(
+            {
+                "id": ObjectId(publication_id),
+                "user_list": user
+             }
+        )
+        if result.count() > 0:
+            return True
+        else:
+            return False
+
