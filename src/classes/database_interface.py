@@ -301,14 +301,14 @@ class DBInterface:
         )
 
     def is_liked(self, publication_id: str, user: str) -> bool:
-        result = self.database["pub_like_map"].find(
+        result = self.database["pub_like_map"].count_documents(
             {
                 "id": ObjectId(publication_id),
                 "user_list": user
              }
         )
-        print(f"Count: {result.count()} of pub found for {publication_id} / {user}")
-        if result.count() > 0:
+        print(f"Count: {result.count} of pub found for {publication_id} / {user}")
+        if result.count > 0:
             return True
         else:
             return False
