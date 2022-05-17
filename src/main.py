@@ -360,6 +360,11 @@ async def upvote_a_publication(publication_id: str, user: str, response: Respons
             "message": "One or many ID provided are not valid ObjectId, they must be 12-byte input or a 24-character "
                        "hex string. "
         }
+    if mongodb_interface.is_liked(publication_id, user):
+        response.status_code = 203
+        return {
+            "message": "Publication already liked."
+        }
     is_success = mongodb_interface.upvote_one_publication(publication_id)
     if is_success:
         mongodb_interface.store_like(publication_id, user)
