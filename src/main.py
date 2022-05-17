@@ -696,3 +696,12 @@ async def is_publication_liked(publication_id: str, user: str, response: Respons
     return {
         "is_liked": is_liked
     }
+
+
+@app.get("/{user}/liked_publications")
+async def is_publication_liked(user: str, response: Response):
+    pub_list = mongodb_interface.get_liked_pub(user)
+    response.status_code = 200
+    return {
+        "liked_pub": pub_list
+    }

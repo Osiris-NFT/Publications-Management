@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="ededee">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="chuis con">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +39,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/GitHub projects/Osiris-NFT_Deployment",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "last_opened_file_path": "D:/GitHub projects/Osiris-NFT_publications-service",
+    "settings.editor.selected.configurable": "0d570cb2-96df-43cc-80da-7f777e6d0afe"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -64,7 +65,10 @@
       <workItem from="1652436203273" duration="1283000" />
       <workItem from="1652440993654" duration="5029000" />
       <workItem from="1652710037612" duration="1399000" />
-      <workItem from="1652793507351" duration="5909000" />
+      <workItem from="1652793507351" duration="6602000" />
+      <workItem from="1652802339980" duration="1306000" />
+      <workItem from="1652812506747" duration="920000" />
+      <workItem from="1652818194151" duration="569000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -234,7 +238,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652799152129</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="chuis con">
+      <created>1652799665587</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1652799665587</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -269,6 +280,7 @@
     <MESSAGE value="add list of user who liked a pub" />
     <MESSAGE value="fix attempt" />
     <MESSAGE value="ededee" />
-    <option name="LAST_COMMIT_MESSAGE" value="ededee" />
+    <MESSAGE value="chuis con" />
+    <option name="LAST_COMMIT_MESSAGE" value="chuis con" />
   </component>
 </project>
