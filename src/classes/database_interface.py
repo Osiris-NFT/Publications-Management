@@ -323,8 +323,8 @@ class DBInterface:
                 "user_list": user
              }
         )
-        print(f"Count: {result.count} of pub found for {publication_id} / {user}")
-        if result.count > 0:
+        print(f"Count: {result} of pub found for {publication_id} / {user}")
+        if result > 0:
             return True
         else:
             return False
