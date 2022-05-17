@@ -319,7 +319,7 @@ class DBInterface:
     def is_liked(self, publication_id: str, user: str) -> bool:
         result = self.database["pub_like_map"].count_documents(
             {
-                "id": ObjectId(publication_id),
+                "_id": ObjectId(publication_id),
                 "user_list": user
              }
         )
