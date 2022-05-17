@@ -46,7 +46,11 @@ class DBInterface:
     def delete_one_publication(self, publication_id: str) -> dict:
         removed_publication = self.collection.find_one_and_delete({'_id': ObjectId(publication_id)})
         self.del_like_user_list(publication_id)
-        pprint(f"Publication: {publication_id} removed from the database")
+        url: str = removed_publication["media_url"]
+        if url:
+            file_id = url.split("/")[3]
+            self.delete_image(file_id)
+        print(f"Publication: {publication_id} removed from the database")
         return removed_publication
 
     def delete_user_publications(self, user_name: str) -> pymongo.results.DeleteResult:
@@ -274,6 +278,10 @@ class DBInterface:
     def upload_image(self, data: bytes) -> ObjectId:
         print("New image uploaded.")
         return self.fs.put(data, content_type="image/jpeg")
+
+    def delete_image(self, file_id: str) -> None:
+        print(f"Image {file_id} deleted.")
+        self.fs.delete(file_id)
 
     def set_url(self, publication_id: str, file_id: str) -> None:
         self.collection.find_one_and_update(
