@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="add liked pub">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="pub id =&gt; pub">
       <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +37,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/GitHub projects/Osiris-NFT_publications-service",
+    "last_opened_file_path": "/home/fox/Documents/github-projects/Osiris-NFT/Osiris-NFT_KrakenD",
     "settings.editor.selected.configurable": "0d570cb2-96df-43cc-80da-7f777e6d0afe"
   }
 }]]></component>
@@ -68,6 +67,7 @@
       <workItem from="1652802339980" duration="1306000" />
       <workItem from="1652812506747" duration="920000" />
       <workItem from="1652818194151" duration="2194000" />
+      <workItem from="1652864225977" duration="971000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -251,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652818876105</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="pub id =&gt; pub">
+      <created>1652864453009</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1652864453010</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -288,6 +295,7 @@
     <MESSAGE value="ededee" />
     <MESSAGE value="chuis con" />
     <MESSAGE value="add liked pub" />
-    <option name="LAST_COMMIT_MESSAGE" value="add liked pub" />
+    <MESSAGE value="pub id =&gt; pub" />
+    <option name="LAST_COMMIT_MESSAGE" value="pub id =&gt; pub" />
   </component>
 </project>

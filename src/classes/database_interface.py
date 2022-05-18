@@ -341,6 +341,7 @@ class DBInterface:
         pub_list = []
         cursor = self.database["pub_like_map"].find({"user_list": user})
         for doc in cursor:
+            doc["_id"] = str(doc["_id"])
             pub_list.append(doc)
         return pub_list
 
