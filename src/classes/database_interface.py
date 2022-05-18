@@ -337,10 +337,10 @@ class DBInterface:
         else:
             return False
 
-    def get_liked_pub(self, user: str) -> list[str]:
+    def get_liked_pub(self, user: str) -> list[dict]:
         pub_list = []
         cursor = self.database["pub_like_map"].find({"user_list": user})
         for doc in cursor:
-            pub_list.append(str(doc["_id"]))
+            pub_list.append(doc)
         return pub_list
 
