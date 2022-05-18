@@ -40,5 +40,5 @@ jobs:
       uses: peter-evans/repository-dispatch@v2
       with:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
-        repository: Yoann-Renard/Osiris-NFT_Publications-Management
-        event-type: trigger-deployment
+        repository: Yoann-Renard/Osiris-NFT_Deployment
+        event-type: trigger-publication-deployment
