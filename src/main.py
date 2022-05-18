@@ -700,8 +700,11 @@ async def is_publication_liked(publication_id: str, user: str, response: Respons
 
 @app.get("/{user}/liked_publications")
 async def is_publication_liked(user: str, response: Response):
-    pub_list = mongodb_interface.get_liked_pub(user)
+    publications = mongodb_interface.get_liked_pub(user)
+    formatted_publications = []
+    for publication in publications:
+        formatted_publications.append(utils.stringify_ids(publication))
     response.status_code = 200
     return {
-        "liked_pub": pub_list
+        "liked_pub": formatted_publications
     }
