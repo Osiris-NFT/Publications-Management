@@ -353,7 +353,6 @@ class DBInterface:
         cursor = self.fs.find({"wallet": wallet})
         for file in cursor:
             print(file._id, end='')
-            print(file.read(), end='')
             print("Parsed")
             url_list.append({
                 "media_url": f"http://34.117.49.96/api/images/{file._id}",
