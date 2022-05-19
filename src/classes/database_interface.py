@@ -355,8 +355,8 @@ class DBInterface:
             print(file, end='')
             print("Parsed")
             url_list.append({
-                "media_url": f"http://34.117.49.96/api/images/{file['_id']}",
-                "metadata": self.nft_get_metadata(file['_id'])
+                "media_url": f"http://34.117.49.96/api/images/{file._id}",
+                "metadata": self.nft_get_metadata(file._id)
             })
         print(f"{url_list} returned for {wallet}")
         return url_list
