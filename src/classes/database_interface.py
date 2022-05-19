@@ -344,3 +344,30 @@ class DBInterface:
             pub_list.append(self.get_one_publication(str(doc["_id"])))
         return pub_list
 
+    def upload_nft(self, data: bytes, wallet: str):
+        print("New NFT uploaded.")
+        return self.fs.put(data, content_type="image/jpeg", wallet=wallet)
+
+    def get_nft_from_wallet(self, wallet: str) -> list[dict]:
+        url_list = []
+        cursor = self.fs.find({"wallet": wallet})
+        for file in cursor:
+            print(file, end='')
+            print("Parsed")
+            url_list.append({
+                "media_url": f"http://34.117.49.96/api/images/{file['_id']}",
+                "metadata": self.nft_get_metadata(file['_id'])
+            })
+        print(f"{url_list} returned for {wallet}")
+        return url_list
+
+    def nft_set_metadata(self, metadata: dict, file_id: str):
+        self.database["nfts_meta"].insert_one(
+            {
+                "_id": ObjectId(file_id),
+                "metadata": metadata
+            }
+        )
+
+    def nft_get_metadata(self, file_id: str):
+        return self.database["nfts_meta"].find_one({"_id": ObjectId(file_id)})["metadata"]

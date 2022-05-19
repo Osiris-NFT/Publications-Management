@@ -17,6 +17,8 @@ TRENDTRACKER_URL = os.environ["TRENDTRACKER_URL"]
 TRENDTRACKER_PORT = os.environ["TRENDTRACKER_PORT"]
 TRENDTRACKER_BL_ENDPOINT = "/get_new_best_publications_ids"
 
+NFT_URL = os.environ["NFT_URL"]
+NFT_PORT = os.environ["NFT_PORT"]
 
 @app.get("/")
 async def root():
@@ -707,4 +709,39 @@ async def is_publication_liked(user: str, response: Response):
     response.status_code = 200
     return {
         "liked_pub": formatted_publications
+    }
+
+
+@app.post("/upload-nft/{wallet}")
+async def upload_image(wallet: str, file: UploadFile):
+    allowed_files = {"image/jpeg"}  # "image/png", "image/gif", "image/tiff", "image/bmp", "video/webm"
+    if file.content_type in allowed_files:
+        file_id = str(mongodb_interface.upload_nft(file.file.read(), wallet))
+        resu = requests.post(NFT_URL+':'+NFT_PORT + "/mint-nft", json={
+            "chain": "rinkeby",
+            "name": "",
+            "description": "",
+            "file_url": f"http://34.117.49.96/api/images/{file_id}",
+            "mint_to_address": wallet
+        })
+        if resu.status_code == 200:
+            print(f"NFT {file_id} minted.")
+            mongodb_interface.nft_set_metadata(metadata=dict(resu.text), file_id=file_id)
+        else:
+            print(f"NFT {file_id} failed with response {resu.text}")
+
+        return {
+            "filename": file.filename,
+            "file_id": file_id
+                }
+    else:
+        return "Only jpeg file are supported."
+
+
+@app.get("/get_nft_of/{wallet}")
+async def get_NFTs(wallet: str, response: Response):
+    nfts = mongodb_interface.get_nft_from_wallet(wallet)
+    response.status_code = 200
+    return {
+        "nfts": nfts
     }
