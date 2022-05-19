@@ -1,3 +1,5 @@
+import time
+
 from fastapi import FastAPI, Response, status, UploadFile
 from fastapi.responses import StreamingResponse
 from bson import ObjectId
@@ -717,6 +719,7 @@ async def upload_image(wallet: str, file: UploadFile):
     allowed_files = {"image/jpeg"}  # "image/png", "image/gif", "image/tiff", "image/bmp", "video/webm"
     if file.content_type in allowed_files:
         file_id = str(mongodb_interface.upload_nft(file.file.read(), wallet))
+        time.sleep(2)
         resu = requests.post(NFT_URL+':'+NFT_PORT + "/nft", json={
             "chain": "rinkeby",
             "name": "Osiris' NFT",
