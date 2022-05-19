@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="impl nft 9 attempt">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="impl nft 10 attempt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +72,7 @@
       <workItem from="1652873849099" duration="2199000" />
       <workItem from="1652877189545" duration="4018000" />
       <workItem from="1652948656101" duration="4537000" />
-      <workItem from="1652962059363" duration="9863000" />
+      <workItem from="1652962059363" duration="10726000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -347,7 +347,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652969753740</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="impl nft 10 attempt">
+      <created>1652972572203</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1652972572203</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +372,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="clean code" />
     <MESSAGE value="endpoint update" />
     <MESSAGE value="add pub id in post" />
     <MESSAGE value="log up" />
@@ -390,6 +396,7 @@
     <MESSAGE value="impl nft 7 attempt" />
     <MESSAGE value="impl nft 8 attempt" />
     <MESSAGE value="impl nft 9 attempt" />
-    <option name="LAST_COMMIT_MESSAGE" value="impl nft 9 attempt" />
+    <MESSAGE value="impl nft 10 attempt" />
+    <option name="LAST_COMMIT_MESSAGE" value="impl nft 10 attempt" />
   </component>
 </project>

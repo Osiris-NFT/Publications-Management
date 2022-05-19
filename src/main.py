@@ -728,7 +728,7 @@ async def upload_image(wallet: str, file: UploadFile):
         })
         if resu.status_code == 200:
             print(f"{datetime.datetime.now()}: NFT {file_id} minted, response :{resu.text}")
-            mongodb_interface.nft_set_metadata(metadata=json.loads(resu.text), file_id=file_id)
+            mongodb_interface.nft_set_metadata(metadata=json.loads(resu.text), file_id=file_id, wallet=wallet)
         else:
             print(f"NFT {file_id} failed with response {resu.text}")
 

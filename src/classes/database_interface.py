@@ -350,21 +350,19 @@ class DBInterface:
 
     def get_nft_from_wallet(self, wallet: str) -> list[dict]:
         url_list = []
-        cursor = self.fs.find({"wallet": wallet})
+        cursor = self.database["nfts_meta"].find({"wallet": wallet})
         for file in cursor:
-            print(file._id, end='')
+            print(file["_id"], end='')
             print("Parsed")
-            url_list.append({
-                "media_url": f"http://34.117.49.96/api/images/{file._id}",
-                "metadata": self.nft_get_metadata(file._id)
-            })
+            url_list.append(file)
         print(f"{url_list} returned for {wallet}")
         return url_list
 
-    def nft_set_metadata(self, metadata: dict, file_id: str):
+    def nft_set_metadata(self, metadata: dict, file_id: str, wallet: str):
         self.database["nfts_meta"].insert_one(
             {
                 "_id": ObjectId(file_id),
+                "wallet": wallet,
                 "metadata": metadata
             }
         )
