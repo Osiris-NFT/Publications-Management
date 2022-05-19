@@ -719,8 +719,8 @@ async def upload_image(wallet: str, file: UploadFile):
         file_id = str(mongodb_interface.upload_nft(file.file.read(), wallet))
         resu = requests.post(NFT_URL+':'+NFT_PORT + "/nft", json={
             "chain": "rinkeby",
-            "name": "",
-            "description": "",
+            "name": "Osiris' NFT",
+            "description": "Nice NFT",
             "file_url": f"http://34.117.49.96/api/images/{file_id}",
             "mint_to_address": wallet
         })
