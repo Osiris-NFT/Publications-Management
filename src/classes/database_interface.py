@@ -352,8 +352,7 @@ class DBInterface:
         url_list = []
         cursor = self.database["nfts_meta"].find({"wallet": wallet})
         for file in cursor:
-            print(file["_id"], end='')
-            print("Parsed")
+            file["_id"] = str(file["_id"])
             url_list.append(file)
         print(f"{url_list} returned for {wallet}")
         return url_list
