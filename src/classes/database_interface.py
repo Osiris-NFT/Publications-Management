@@ -294,7 +294,7 @@ class DBInterface:
         )
 
     def download_image(self, file_id: ObjectId) -> gridfs.GridOut:
-        print(f"Image {str(file_id)} downloaded.")
+        print(f"{datetime.datetime.now()}: Image {str(file_id)} downloaded.")
         return self.fs.get(file_id)
 
     def store_like(self, publication_id: str, user: str) -> None:
@@ -345,7 +345,7 @@ class DBInterface:
         return pub_list
 
     def upload_nft(self, data: bytes, wallet: str):
-        print("New NFT uploaded.")
+        print(f"{datetime.datetime.now()}:  New NFT uploaded.")
         return self.fs.put(data, content_type="image/jpeg", wallet=wallet)
 
     def get_nft_from_wallet(self, wallet: str) -> list[dict]:
