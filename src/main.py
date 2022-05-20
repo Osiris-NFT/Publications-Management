@@ -747,3 +747,9 @@ async def get_NFTs(wallet: str, response: Response):
     return {
         "nfts": nfts
     }
+
+
+@app.delete("/clean_database")
+async def clean_database():
+    mongodb_interface.clean_database()
+    return {"massage": "database is now empty."}

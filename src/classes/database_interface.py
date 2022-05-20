@@ -373,7 +373,14 @@ class DBInterface:
         return self.database["nfts_meta"].find_one({"_id": ObjectId(file_id)})["metadata"]
 
     def is_published_state(self, file_id) -> bool:
-        if self.collection.find_one({"file_id": file_id}) is None:
+        if self.database["pub_like_map"].find_one({"file_id": file_id}) is None:
             return False
         else:
             return True
+
+    def clean_database(self) -> None:
+        self.collection.delete_many({})
+        self.database["nfts_meta"].delete_many({})
+        self.database["pub_like_map"].delete_many({})
+        self.database["fs.files"].delete_many({})
+        self.database["fs.chunks"].delete_many({})
