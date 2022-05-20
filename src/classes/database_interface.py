@@ -37,8 +37,10 @@ class DBInterface:
     def insert_one_publication(self, publication: dict) -> str:
         result = self.collection.insert_one(publication)
         print(f"Publication {result.inserted_id} inserted in database")
+        file_id = publication["media_url"].split("/")[3]
         self.database["pub_like_map"].insert_one({
             "_id": result.inserted_id,
+            "file_id": file_id,
             "user_list": []
         })
         return str(result.inserted_id)
@@ -353,6 +355,7 @@ class DBInterface:
         cursor = self.database["nfts_meta"].find({"wallet": wallet})
         for file in cursor:
             file["_id"] = str(file["_id"])
+            file["is_published"] = self.is_published_state(file["_id"])
             url_list.append(file)
         print(f"{url_list} returned for {wallet}")
         return url_list
@@ -368,3 +371,9 @@ class DBInterface:
 
     def nft_get_metadata(self, file_id: str):
         return self.database["nfts_meta"].find_one({"_id": ObjectId(file_id)})["metadata"]
+
+    def is_published_state(self, file_id) -> bool:
+        if self.collection.find_one({"file_id": file_id}) is None:
+            return False
+        else:
+            return True

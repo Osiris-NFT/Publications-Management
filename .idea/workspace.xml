@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="fix get nfts from llet">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="fix get nfts from wallet">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
     </list>
@@ -73,7 +73,8 @@
       <workItem from="1652873849099" duration="2199000" />
       <workItem from="1652877189545" duration="4018000" />
       <workItem from="1652948656101" duration="4537000" />
-      <workItem from="1652962059363" duration="11538000" />
+      <workItem from="1652962059363" duration="12067000" />
+      <workItem from="1653035457029" duration="1223000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -362,7 +363,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652973740595</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="fix get nfts from wallet">
+      <created>1652974145838</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1652974145838</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -380,7 +388,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add pub id in post" />
     <MESSAGE value="log up" />
     <MESSAGE value="fix" />
     <MESSAGE value="fix reply" />
@@ -405,6 +412,7 @@
     <MESSAGE value="impl nft 9 attempt" />
     <MESSAGE value="impl nft 10 attempt" />
     <MESSAGE value="fix get nfts from llet" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix get nfts from llet" />
+    <MESSAGE value="fix get nfts from wallet" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix get nfts from wallet" />
   </component>
 </project>
