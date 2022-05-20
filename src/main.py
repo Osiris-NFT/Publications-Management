@@ -1,5 +1,3 @@
-import time
-
 from fastapi import FastAPI, Response, status, UploadFile
 from fastapi.responses import StreamingResponse
 from bson import ObjectId

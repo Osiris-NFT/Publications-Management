@@ -7,6 +7,7 @@ class PublicationModel(BaseModel):
     publication_name: str
     user_name: str
     description: str
+    media_url: str
     content_type: str = Query(None, regex="image|video|gif|tweet|audio")
     category: str = Query(None, regex="pixel-art|digital-drawing|photography")
 
