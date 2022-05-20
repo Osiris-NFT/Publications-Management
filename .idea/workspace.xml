@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="fix get nfts from wallet">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/document_builders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/document_builders.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
