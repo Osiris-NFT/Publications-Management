@@ -721,7 +721,7 @@ async def upload_image(wallet: str, file: UploadFile):
             "chain": "rinkeby",
             "name": "Osiris NFT",
             "description": "Nice NFT",
-            "file_url": f"http://34.117.49.96/api/images/62864963932956c2a67d2a32",
+            "file_url": f"http://34.117.49.96/api/images/6287a39e369461d89222d03d",
             "mint_to_address": wallet
         })
         if resu.status_code == 200:

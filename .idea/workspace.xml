@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="fix get nfts from wallet">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="fix ispublished &amp; clean data endpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/document_builders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/document_builders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +23,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -76,7 +75,9 @@
       <workItem from="1652877189545" duration="4018000" />
       <workItem from="1652948656101" duration="4537000" />
       <workItem from="1652962059363" duration="12067000" />
-      <workItem from="1653035457029" duration="1223000" />
+      <workItem from="1653035457029" duration="2536000" />
+      <workItem from="1653039309155" duration="247000" />
+      <workItem from="1653056197624" duration="486000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -372,7 +373,21 @@
       <option name="project" value="LOCAL" />
       <updated>1652974145838</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="addd is published state">
+      <created>1653036690981</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1653036690981</updated>
+    </task>
+    <task id="LOCAL-00044" summary="fix ispublished &amp; clean data endpoint">
+      <created>1653037379412</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1653037379412</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -390,8 +405,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="log up" />
-    <MESSAGE value="fix" />
     <MESSAGE value="fix reply" />
     <MESSAGE value="clean" />
     <MESSAGE value="add list of user who liked a pub" />
@@ -415,6 +428,8 @@
     <MESSAGE value="impl nft 10 attempt" />
     <MESSAGE value="fix get nfts from llet" />
     <MESSAGE value="fix get nfts from wallet" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix get nfts from wallet" />
+    <MESSAGE value="addd is published state" />
+    <MESSAGE value="fix ispublished &amp; clean data endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix ispublished &amp; clean data endpoint" />
   </component>
 </project>
