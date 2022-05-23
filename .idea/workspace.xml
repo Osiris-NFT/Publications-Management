@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="add update wallet endpoint">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="add get nft metadata">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +81,7 @@
       <workItem from="1653140463989" duration="769000" />
       <workItem from="1653296998482" duration="1305000" />
       <workItem from="1653306746116" duration="2227000" />
-      <workItem from="1653309709565" duration="1696000" />
+      <workItem from="1653309709565" duration="2519000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -413,7 +412,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653310150465</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="add get nft metadata">
+      <created>1653315579334</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1653315579334</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -431,7 +437,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add list of user who liked a pub" />
     <MESSAGE value="fix attempt" />
     <MESSAGE value="ededee" />
     <MESSAGE value="chuis con" />
@@ -456,6 +461,7 @@
     <MESSAGE value="fix ispublished &amp; clean data endpoint" />
     <MESSAGE value="/nft =&gt; /mint endpoint" />
     <MESSAGE value="add update wallet endpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="add update wallet endpoint" />
+    <MESSAGE value="add get nft metadata" />
+    <option name="LAST_COMMIT_MESSAGE" value="add get nft metadata" />
   </component>
 </project>

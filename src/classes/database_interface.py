@@ -397,4 +397,5 @@ class DBInterface:
         nft = self.database["nfts_meta"].find_one(
             {"_id": ObjectId(file_id)}
         )
+        nft["_id"] = str(nft["_id"])
         return nft
