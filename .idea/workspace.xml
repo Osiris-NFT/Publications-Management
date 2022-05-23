@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="fix ispublished &amp; clean data endpoint">
+    <list default="true" id="24d39d3b-eef8-4ae0-aa17-bc7da9890217" name="Changes" comment="/nft =&gt; /mint endpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_dev/publication.format.json" beforeDir="false" afterPath="$PROJECT_DIR$/_dev/publication.format.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_dev/test_upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/_dev/test_upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classes/database_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/classes/database_interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +43,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/fox/Documents/github-projects/Osiris-NFT/Osiris-NFT_Publications-Management&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/fox/Documents/github-projects/Osiris-NFT/Osiris-NFT_KrakenD&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
@@ -77,6 +82,10 @@
       <workItem from="1653035457029" duration="2536000" />
       <workItem from="1653039309155" duration="247000" />
       <workItem from="1653056197624" duration="1249000" />
+      <workItem from="1653140463989" duration="769000" />
+      <workItem from="1653296998482" duration="1305000" />
+      <workItem from="1653306746116" duration="2227000" />
+      <workItem from="1653309709565" duration="163000" />
     </task>
     <task id="LOCAL-00001" summary="endpoint update">
       <created>1649936376836</created>
@@ -393,7 +402,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653056692198</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="/nft =&gt; /mint endpoint">
+      <created>1653140624434</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1653140624435</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,7 +427,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix reply" />
     <MESSAGE value="clean" />
     <MESSAGE value="add list of user who liked a pub" />
     <MESSAGE value="fix attempt" />
@@ -436,6 +451,7 @@
     <MESSAGE value="fix get nfts from wallet" />
     <MESSAGE value="addd is published state" />
     <MESSAGE value="fix ispublished &amp; clean data endpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix ispublished &amp; clean data endpoint" />
+    <MESSAGE value="/nft =&gt; /mint endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="/nft =&gt; /mint endpoint" />
   </component>
 </project>

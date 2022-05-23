@@ -192,7 +192,7 @@ class DBInterface:
     def insert_one_reply(self, publication_id: str, comment_id: str, reply: dict) -> str:
         new_id = ObjectId()
         reply["_id"] = new_id
-        result = self.collection.find_one_and_update(
+        self.collection.find_one_and_update(
             {
                 "_id": ObjectId(publication_id),
                 "comments._id": ObjectId(comment_id)
@@ -204,7 +204,6 @@ class DBInterface:
             },
             return_document=ReturnDocument.AFTER
         )
-        #result_id = result["replies"][-1]["_id"]
         print(
             f"Reply with id '{new_id}' by '{reply['user']}' inserted in DB")
         return str(new_id)
@@ -384,3 +383,12 @@ class DBInterface:
         self.database["pub_like_map"].delete_many({})
         self.database["fs.files"].delete_many({})
         self.database["fs.chunks"].delete_many({})
+
+    def update_wallet(self, file_id: str, wallet: str) -> None:
+        self.database["nfts_meta"].find_one_and_update(
+            {"_id": ObjectId(file_id)},
+            {
+                "$set": {"wallet": wallet}
+            }
+        )
+        return None

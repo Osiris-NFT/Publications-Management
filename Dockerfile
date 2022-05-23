@@ -11,7 +11,6 @@ RUN apk update && \
 
 COPY src /home/publications-service/src
 COPY run.sh /home/publications-service/
-#COPY .env /home/publications-service/
 
 RUN chown -R runner:runner /home/publications-service/
 

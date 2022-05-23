@@ -20,6 +20,7 @@ TRENDTRACKER_BL_ENDPOINT = "/get_new_best_publications_ids"
 NFT_URL = os.environ["NFT_URL"]
 NFT_PORT = os.environ["NFT_PORT"]
 
+
 @app.get("/")
 async def root():
     return {"message": "Publication service is alive !"}
@@ -136,7 +137,7 @@ async def upload_image(publication_id: str, file: UploadFile):
         return {
             "filename": file.filename,
             "file_id": file_id
-                }
+        }
     else:
         return "Only jpeg file are supported."
 
@@ -717,7 +718,7 @@ async def upload_image(wallet: str, file: UploadFile):
     allowed_files = {"image/jpeg"}  # "image/png", "image/gif", "image/tiff", "image/bmp", "video/webm"
     if file.content_type in allowed_files:
         file_id = str(mongodb_interface.upload_nft(file.file.read(), wallet))
-        resu = requests.post(NFT_URL+':'+NFT_PORT + "/mint", json={
+        resu = requests.post(NFT_URL + ':' + NFT_PORT + "/mint", json={
             "name": "OsirisNFT",
             "description": "NiceNFT",
             "file_url": f"http://34.117.49.96/api/images/6287a39e369461d89222d03d",
@@ -732,7 +733,7 @@ async def upload_image(wallet: str, file: UploadFile):
         return {
             "filename": file.filename,
             "file_id": file_id
-                }
+        }
     else:
         return "Only jpeg file are supported."
 
@@ -750,3 +751,12 @@ async def get_NFTs(wallet: str, response: Response):
 async def clean_database():
     mongodb_interface.clean_database()
     return {"massage": "database is now empty."}
+
+
+@app.patch("/update_wallet/{file_id}/{wallet}")
+async def update_wallet(file_id: str, wallet: str, response: Response):
+    mongodb_interface.update_wallet(file_id, wallet)
+    response.status_code = 200
+    return {
+        "message": f"{file_id} wallet updated to {wallet}"
+    }
