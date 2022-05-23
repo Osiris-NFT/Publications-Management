@@ -760,3 +760,11 @@ async def update_wallet(file_id: str, wallet: str, response: Response):
     return {
         "message": f"{file_id} wallet updated to {wallet}"
     }
+
+
+@app.get("/nfts/{file_id}/metadata")
+async def get_metadata(file_id: str, response: Response):
+    nft = mongodb_interface.get_nft_metadata(file_id)
+    response.status_code = 200
+    return nft
+

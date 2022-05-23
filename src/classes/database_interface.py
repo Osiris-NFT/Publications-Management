@@ -392,3 +392,9 @@ class DBInterface:
             }
         )
         return None
+
+    def get_nft_metadata(self, file_id) -> dict:
+        nft = self.database["nfts_meta"].find_one(
+            {"_id": ObjectId(file_id)}
+        )
+        return nft
