@@ -721,7 +721,7 @@ async def upload_image(wallet: str, file: UploadFile):
         resu = requests.post(NFT_URL + ':' + NFT_PORT + "/mint", json={
             "name": "OsirisNFT",
             "description": "NiceNFT",
-            "file_url": f"http://34.117.49.96/api/images/{file_id}",
+            "file_url": f"http://169.51.204.107/api/images/{file_id}",
             "address": wallet
         })
         if resu.status_code == 200:
